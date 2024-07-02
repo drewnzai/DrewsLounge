@@ -2,6 +2,7 @@ package com.andrewnzai.DrewsLounge.api;
 
 import com.andrewnzai.DrewsLounge.dtos.LoginRequest;
 import com.andrewnzai.DrewsLounge.dtos.LoginResponse;
+import com.andrewnzai.DrewsLounge.dtos.RefreshTokenRequest;
 import com.andrewnzai.DrewsLounge.dtos.RegisterRequest;
 import com.andrewnzai.DrewsLounge.services.AuthService;
 import com.andrewnzai.DrewsLounge.utils.APIResponse;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.ResponseEntity;
 
 import static org.springframework.http.HttpStatus.OK;
+import static org.springframework.http.HttpStatus.CONFLICT;
 
 @RestController
 @RequestMapping("/api/auth/")
@@ -24,25 +26,53 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("signup")
-    public APIResponse signup(@RequestBody RegisterRequest registerRequest) throws Exception {
-        authService.signup(registerRequest);
+    public ResponseEntity<String> signup(@RequestBody RegisterRequest registerRequest) throws Exception {
+        
+        try{
+            authService.signup(registerRequest);
+            return new ResponseEntity<>("Account created successfully, verification email sent to your email", OK);
+        }
+        catch(Exception e){
+            return new ResponseEntity<>("Account not created, username already exists", CONFLICT);
+        }
 
-        return APIResponse.builder()
-                .statusCode(200)
-                .isSuccessful(true)
-                .message("Successful signup")
-                .data(null)
-                .build();
     }
 
     @GetMapping("accountVerification/{token}")
     public ResponseEntity<String> verifyAccount(@PathVariable String token) {
-        authService.verifyAccount(token);
-        return new ResponseEntity<>("Account Activated Successfully", OK);
+
+        try{
+            authService.verifyAccount(token);
+            return new ResponseEntity<>("Account Activated Successfully", OK);
+        }
+        catch(Exception e){
+            return new ResponseEntity<>("Account not activated", CONFLICT);
+        }
+        
     }
 
     @PostMapping("login")
-    public LoginResponse login(@RequestBody LoginRequest loginRequest){
-        return authService.login(loginRequest);
+    public Object login(@RequestBody LoginRequest loginRequest){
+        
+        try{
+            return authService.login(loginRequest);
+        }
+        catch(Exception e){
+            return "User credentials do not match those in system";
+        }
+        
     }
+
+    @PostMapping("refresh")
+    public Object refresh(@RequestBody RefreshTokenRequest refreshTokenRequest) throws Exception{
+        
+        try{
+            return authService.refresh(refreshTokenRequest);
+        }
+        catch(Exception e){
+            return "Cannot refresh JWT: refresh token might be invalid";
+        }
+
+    }
+
 }
