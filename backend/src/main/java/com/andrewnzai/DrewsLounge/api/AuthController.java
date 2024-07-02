@@ -1,11 +1,9 @@
 package com.andrewnzai.DrewsLounge.api;
 
 import com.andrewnzai.DrewsLounge.dtos.LoginRequest;
-import com.andrewnzai.DrewsLounge.dtos.LoginResponse;
 import com.andrewnzai.DrewsLounge.dtos.RefreshTokenRequest;
 import com.andrewnzai.DrewsLounge.dtos.RegisterRequest;
 import com.andrewnzai.DrewsLounge.services.AuthService;
-import com.andrewnzai.DrewsLounge.utils.APIResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.HttpStatus.CONFLICT;
@@ -57,8 +57,14 @@ public class AuthController {
         try{
             return authService.login(loginRequest);
         }
+        catch(BadCredentialsException e){
+            return "Wrong credentials";
+        }
+        catch(UsernameNotFoundException | NullPointerException e){
+            return "User does not exist";
+        }
         catch(Exception e){
-            return "User credentials do not match those in system";
+            return "Verify account";
         }
         
     }
