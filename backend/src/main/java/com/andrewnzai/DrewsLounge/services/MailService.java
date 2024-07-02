@@ -1,6 +1,6 @@
 package com.andrewnzai.DrewsLounge.services;
 
-import com.andrewnzai.DrewsLounge.models.NotificationEmail;
+import com.andrewnzai.DrewsLounge.emails.NotificationEmail;
 import lombok.AllArgsConstructor;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;

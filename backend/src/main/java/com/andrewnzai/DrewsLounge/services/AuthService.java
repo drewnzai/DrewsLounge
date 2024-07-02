@@ -4,11 +4,11 @@ import com.andrewnzai.DrewsLounge.dtos.LoginRequest;
 import com.andrewnzai.DrewsLounge.dtos.LoginResponse;
 import com.andrewnzai.DrewsLounge.dtos.RefreshTokenRequest;
 import com.andrewnzai.DrewsLounge.dtos.RegisterRequest;
-import com.andrewnzai.DrewsLounge.models.RefreshToken;
-import com.andrewnzai.DrewsLounge.models.User;
-import com.andrewnzai.DrewsLounge.models.UserDetailsImpl;
+import com.andrewnzai.DrewsLounge.emails.NotificationEmail;
+import com.andrewnzai.DrewsLounge.models.*;
 import com.andrewnzai.DrewsLounge.repositories.RefreshTokenRepository;
 import com.andrewnzai.DrewsLounge.repositories.UserRepository;
+import com.andrewnzai.DrewsLounge.repositories.VerificationTokenRepository;
 import com.andrewnzai.DrewsLounge.utils.JwtUtil;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -29,7 +29,9 @@ import java.util.UUID;
 public class AuthService {
     private final UserRepository userRepository;
     private final RefreshTokenRepository refreshTokenRepository;
+    private final VerificationTokenRepository verificationTokenRepository;
     private final AuthenticationManager authenticationManager;
+    private final MailService mailService;
     private final JwtUtil jwtUtil;
     private final PasswordEncoder passwordEncoder;
 
@@ -42,10 +44,42 @@ public class AuthService {
             user.setUsername(registerRequest.getUsername());
             user.setEmail(registerRequest.getEmail());
             user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
+            user.setEnabled(false);
 
-            //TO-DO: Implement mail sending capabilities
+            String token = generateVerificationToken(user);
+
+            mailService.sendMail(
+                    new NotificationEmail("Account Verification",
+                            user.getEmail(),
+                            "Thank you for signing up to Spring Reddit, " +
+                                    "please click on the below url to activate your account: " +
+                                    "http://localhost:8080/api/auth/accountVerification/" + token)
+            );
+
             userRepository.save(user);
         }
+    }
+
+    private void fetchUserAndEnable(VerificationToken verificationToken) {
+        String username = verificationToken.getUser().getUsername();
+        User user = userRepository.findByUsername(username);
+        user.setEnabled(true);
+        userRepository.save(user);
+    }
+
+    private String generateVerificationToken(User user) {
+        String token = UUID.randomUUID().toString();
+        VerificationToken verificationToken = new VerificationToken();
+        verificationToken.setToken(token);
+        verificationToken.setUser(user);
+
+        verificationTokenRepository.save(verificationToken);
+        return token;
+    }
+
+    public void verifyAccount(String token) {
+        VerificationToken verificationToken = verificationTokenRepository.findByToken(token);
+        fetchUserAndEnable(verificationToken);
     }
 
     @Transactional(readOnly = true)
