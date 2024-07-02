@@ -1,5 +1,6 @@
 package com.andrewnzai.DrewsLounge.services;
 
+import com.andrewnzai.DrewsLounge.models.NotificationEmail;
 import lombok.AllArgsConstructor;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -24,7 +25,7 @@ public class MailService {
     }
 
     @Async
-    public void sendMail(NotificationEmail notificationEmail) {
+    public void sendMail(NotificationEmail notificationEmail) throws Exception {
         MimeMessagePreparator messagePreparator = mimeMessage -> {
             MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
             messageHelper.setFrom("drewslounge@email.com");
