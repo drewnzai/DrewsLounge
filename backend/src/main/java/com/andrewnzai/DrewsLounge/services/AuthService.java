@@ -47,6 +47,7 @@ public class AuthService {
             userRepository.save(user);
         }
     }
+
     @Transactional(readOnly = true)
     public User getCurrentUser() {
         UserDetailsImpl principal = (UserDetailsImpl) SecurityContextHolder.
@@ -91,6 +92,5 @@ public class AuthService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return !(authentication instanceof AnonymousAuthenticationToken) && authentication.isAuthenticated();
     }
-
 
 }
