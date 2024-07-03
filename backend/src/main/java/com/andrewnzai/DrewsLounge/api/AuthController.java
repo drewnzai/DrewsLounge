@@ -4,6 +4,8 @@ import com.andrewnzai.DrewsLounge.dtos.LoginRequest;
 import com.andrewnzai.DrewsLounge.dtos.RefreshTokenRequest;
 import com.andrewnzai.DrewsLounge.dtos.RegisterRequest;
 import com.andrewnzai.DrewsLounge.services.AuthService;
+
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +23,7 @@ import static org.springframework.http.HttpStatus.CONFLICT;
 @RestController
 @RequestMapping("/api/auth/")
 @AllArgsConstructor
+@Tag(name = "Authentication endpoint", description = "Provides a point for all authentication related functionality")
 public class AuthController {
 
     private final AuthService authService;
@@ -76,7 +79,7 @@ public class AuthController {
             return authService.refresh(refreshTokenRequest);
         }
         catch(Exception e){
-            return "Cannot refresh JWT: refresh token might be invalid";
+            return e.getMessage();
         }
 
     }

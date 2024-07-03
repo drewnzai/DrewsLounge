@@ -11,6 +11,8 @@ import com.andrewnzai.DrewsLounge.repositories.UserRepository;
 import com.andrewnzai.DrewsLounge.repositories.VerificationTokenRepository;
 import com.andrewnzai.DrewsLounge.utils.JwtUtil;
 import lombok.AllArgsConstructor;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -95,28 +97,41 @@ public class AuthService {
                 loginRequest.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authenticate);
 
-        return build(jwtUtil.generateJwtToken(authenticate), loginRequest.getUsername());
+        RefreshToken refreshToken = new RefreshToken();
+        refreshToken.setToken(UUID.randomUUID().toString());
+        refreshToken.setExpirationDate(Instant.now().plusSeconds(2592000));
+        refreshTokenRepository.save(refreshToken);
+
+        return build(jwtUtil.generateJwtToken(authenticate)
+        , loginRequest.getUsername()
+        , refreshToken.getToken());
     }
 
     public LoginResponse refresh(RefreshTokenRequest refreshTokenRequest) throws Exception {
-        if(refreshTokenRepository.existsByToken(refreshTokenRequest.getRefreshToken())){
+
+        RefreshToken refreshToken = refreshTokenRepository.findByToken(refreshTokenRequest.getRefreshToken());
+
+        boolean isNotExpired = Instant.now().isBefore(refreshToken.getExpirationDate());
+
+        if(isNotExpired){
+            return build(jwtUtil.generateJwtTokenFromUsername(refreshTokenRequest.getUsername())
+            , refreshTokenRequest.getUsername()
+            , refreshTokenRequest.getRefreshToken());
+        }
+        else if(!isNotExpired){
             refreshTokenRepository.deleteByToken(refreshTokenRequest.getRefreshToken());
 
-            return build(jwtUtil.generateJwtTokenFromUsername(refreshTokenRequest.getUsername()), refreshTokenRequest.getUsername());
+            throw new Exception("Refresh Token has expired");
         }
         else {
             throw new Exception("Refresh Token is not valid");
         }
     }
 
-    private LoginResponse build(String token, String username){
-        RefreshToken refreshToken = new RefreshToken();
-        refreshToken.setToken(UUID.randomUUID().toString());
-        refreshTokenRepository.save(refreshToken);
-
+    private LoginResponse build(String token, String username, String refreshToken){
         return LoginResponse.builder()
                 .authenticationToken(token)
-                .refreshToken(refreshToken.getToken())
+                .refreshToken(refreshToken)
                 .expiresAt(Instant.now().plusSeconds(jwtUtil.getJwtExpiration()))
                 .username(username)
                 .build();
