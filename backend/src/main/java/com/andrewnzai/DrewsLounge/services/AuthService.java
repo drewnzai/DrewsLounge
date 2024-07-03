@@ -98,9 +98,12 @@ public class AuthService {
                 loginRequest.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authenticate);
 
+        User user = userRepository.findByUsername(loginRequest.getUsername());
+
         RefreshToken refreshToken = new RefreshToken();
         refreshToken.setToken(UUID.randomUUID().toString());
         refreshToken.setExpirationDate(Instant.now().plusSeconds(2592000));
+        refreshToken.setUser(user);
         refreshTokenRepository.save(refreshToken);
 
         return build(jwtUtil.generateJwtToken(authenticate)
@@ -109,8 +112,9 @@ public class AuthService {
     }
 
     public LoginResponse refresh(RefreshTokenRequest refreshTokenRequest) throws Exception {
-
-        RefreshToken refreshToken = refreshTokenRepository.findByToken(refreshTokenRequest.getRefreshToken());
+        
+        User user = userRepository.findByUsername(refreshTokenRequest.getUsername());
+        RefreshToken refreshToken = refreshTokenRepository.findByTokenAndUser(refreshTokenRequest.getRefreshToken(), user);
 
         boolean isNotExpired = Instant.now().isBefore(refreshToken.getExpirationDate());
 
