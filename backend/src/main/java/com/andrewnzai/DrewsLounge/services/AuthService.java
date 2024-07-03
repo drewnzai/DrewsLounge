@@ -5,14 +5,15 @@ import com.andrewnzai.DrewsLounge.dtos.LoginResponse;
 import com.andrewnzai.DrewsLounge.dtos.RefreshTokenRequest;
 import com.andrewnzai.DrewsLounge.dtos.RegisterRequest;
 import com.andrewnzai.DrewsLounge.emails.NotificationEmail;
-import com.andrewnzai.DrewsLounge.models.*;
+import com.andrewnzai.DrewsLounge.models.RefreshToken;
+import com.andrewnzai.DrewsLounge.models.User;
+import com.andrewnzai.DrewsLounge.models.UserDetailsImpl;
+import com.andrewnzai.DrewsLounge.models.VerificationToken;
 import com.andrewnzai.DrewsLounge.repositories.RefreshTokenRepository;
 import com.andrewnzai.DrewsLounge.repositories.UserRepository;
 import com.andrewnzai.DrewsLounge.repositories.VerificationTokenRepository;
 import com.andrewnzai.DrewsLounge.utils.JwtUtil;
 import lombok.AllArgsConstructor;
-
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
