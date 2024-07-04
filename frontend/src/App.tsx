@@ -2,6 +2,8 @@ import { CssBaseline, ThemeProvider } from '@mui/material';
 import 'react-toastify/dist/ReactToastify.css';
 import {ToastContainer} from 'react-toastify';
 import { ColorModeContext, useMode } from './theme';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import AccountVerification from './pages/AccountVerification';
 
 function App() {
 
@@ -17,6 +19,13 @@ function App() {
     {/* @ts-ignore */}
     <ThemeProvider theme={theme}>
       <CssBaseline/>
+      
+      <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<AccountVerification/>}/>
+      </Routes>
+      </BrowserRouter>
+      
       <ToastContainer
         position="top-right"
         autoClose={1500}
