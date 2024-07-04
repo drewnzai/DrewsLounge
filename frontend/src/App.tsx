@@ -1,6 +1,7 @@
 import { CssBaseline, ThemeProvider } from '@mui/material';
-import './App.css'
-import { ColorModeContext, useMode } from './theme'
+import 'react-toastify/dist/ReactToastify.css';
+import {ToastContainer} from 'react-toastify';
+import { ColorModeContext, useMode } from './theme';
 
 function App() {
 
@@ -8,7 +9,6 @@ function App() {
   
   return (
     <>
-    
     {/*An error that's just a pain really, works fine*/}
     {/* @ts-ignore */}
     <ColorModeContext.Provider value={colorMode}>
@@ -17,6 +17,17 @@ function App() {
     {/* @ts-ignore */}
     <ThemeProvider theme={theme}>
       <CssBaseline/>
+      <ToastContainer
+        position="top-right"
+        autoClose={2500}
+        hideProgressBar
+        newestOnTop={true}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        />
     </ThemeProvider>
     </ColorModeContext.Provider>
     
