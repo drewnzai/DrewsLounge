@@ -1,4 +1,3 @@
-import { useNavigate } from "react-router-dom";
 import { LoginRequest } from "../models/LoginRequest";
 import AuthService from "../services/AuthService.service";
 import {Formik} from "formik";
@@ -12,7 +11,6 @@ export default function Login(){
     const colors = tokens(theme.palette.mode);
     
     const authService = new AuthService();
-    const navigate = useNavigate();
 
     const initialValues: LoginRequest = {
         username: "",
