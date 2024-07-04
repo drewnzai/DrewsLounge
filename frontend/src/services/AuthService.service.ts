@@ -31,20 +31,10 @@ export default class AuthService{
         .then(
             (response) => {
                 
-            switch(response.data){
-                case "Wrong Credentials":
-                case "User does not exist":
-                case "Verify account":
-                    toast.error(response.data);
-                    break;
-
-                default:{
-                    localStorage.setItem("user", JSON.stringify(response.data));
-                    this.navigate("/");
-                    break;
-                    }
-}
-                return response;
+            if(response.data == "Wrong Credentials"){
+                toast.error("Wrong");
+                return;
+            }
             }
         )
     }
