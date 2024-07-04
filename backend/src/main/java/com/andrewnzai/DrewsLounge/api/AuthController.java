@@ -37,14 +37,14 @@ public class AuthController {
     }
 
     @GetMapping("accountVerification/{token}")
-    public ResponseEntity<String> verifyAccount(@PathVariable String token) {
+    public String verifyAccount(@PathVariable String token) {
 
         try{
             authService.verifyAccount(token);
-            return new ResponseEntity<>("Account Activated Successfully", OK);
+            return "Account Activated Successfully";
         }
         catch(Exception e){
-            return new ResponseEntity<>("Account not activated", CONFLICT);
+            return "Account not activated";
         }
         
     }
@@ -56,13 +56,13 @@ public class AuthController {
             return authService.login(loginRequest);
         }
         catch(BadCredentialsException e){
-            return MiscResponse.builder().data(e.getMessage()).build();
+            return MiscResponse.builder().data("Wrong password").build();
         }
         catch(UsernameNotFoundException | NullPointerException e){
-            return MiscResponse.builder().data(e.getMessage()).build();
+            return MiscResponse.builder().data("Username does not exist").build();
         }
         catch(Exception e){
-            return MiscResponse.builder().data(e.getMessage()).build();
+            return MiscResponse.builder().data("Verify account").build();
         }
         
     }
