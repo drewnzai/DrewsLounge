@@ -21,7 +21,7 @@ export default function AccountVerification(){
                 }}>
 
                     <h1>
-                        Verify your account through the email sent to your email
+                        Verify your account through the notification sent to your email
                     </h1>
 
                 </Box>
