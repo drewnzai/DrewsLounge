@@ -8,6 +8,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Entrypoint from './pages/Entrypoint';
 import Base from './pages/Base';
+import Home from './pages/Home';
 
 function App() {
 
@@ -27,7 +28,7 @@ function App() {
       <BrowserRouter>
       <Routes>
         <Route element={<Entrypoint/>}>
-          
+          <Route path="/conversations/@me" element={<Home/>}/>
         </Route>
         <Route path="/" element={<Base/>}/>
         <Route path="/login" element={<Login/>}/>
