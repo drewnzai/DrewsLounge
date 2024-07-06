@@ -37,7 +37,7 @@ export default class AuthService{
                 }
                 else{
                     localStorage.setItem("user", JSON.stringify(response.data));
-                    this.navigate("/");
+                    this.navigate("/conversations/@me");
                 }
             }
         )
