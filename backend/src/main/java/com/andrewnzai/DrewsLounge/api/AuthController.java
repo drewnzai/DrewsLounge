@@ -31,7 +31,7 @@ public class AuthController {
             return null;
         }
         catch(Exception e){
-            return APIResponse.builder().data("Registration incomplete: username already exists").build();
+            return APIResponse.builder().data(e.getMessage()).build();
         }
 
     }
@@ -74,7 +74,7 @@ public class AuthController {
             return authService.refresh(refreshTokenRequest);
         }
         catch(Exception e){
-            return e.getMessage();
+            return APIResponse.builder().data(e.getMessage()).build();
         }
 
     }
