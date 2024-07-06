@@ -7,6 +7,7 @@ import AccountVerification from './pages/AccountVerification';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Entrypoint from './pages/Entrypoint';
+import Base from './pages/Base';
 
 function App() {
 
@@ -28,6 +29,7 @@ function App() {
         <Route element={<Entrypoint/>}>
           
         </Route>
+        <Route path="/" element={<Base/>}/>
         <Route path="/login" element={<Login/>}/>
         <Route path="/register" element={<Register/>}/>
         <Route path="/verifyaccount" element={<AccountVerification/>}/>
