@@ -6,7 +6,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import AccountVerification from './pages/AccountVerification';
 import Login from './pages/Login';
 import Register from './pages/Register';
-import Home from './pages/Home';
+import Entrypoint from './pages/Entrypoint';
 
 function App() {
 
@@ -25,7 +25,9 @@ function App() {
       
       <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Home/>}/>
+        <Route element={<Entrypoint/>}>
+          
+        </Route>
         <Route path="/login" element={<Login/>}/>
         <Route path="/register" element={<Register/>}/>
         <Route path="/verifyaccount" element={<AccountVerification/>}/>

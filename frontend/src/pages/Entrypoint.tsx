@@ -1,6 +1,6 @@
 import { Navigate, Outlet } from "react-router-dom";
 
-export default function Home(){
+export default function Entrypoint(){
     
     const user: any | null = localStorage.getItem("user");
 
@@ -13,7 +13,7 @@ export default function Home(){
             </main>
 
         </div>
-        
+
         : <Navigate to={"/login"}/>
     );
 }
