@@ -51,6 +51,7 @@ export default function Login(){
                         <Box
                             mt={"200px"}
                             display="block"
+                            width="300px"
                             gap="30px"
                             p={"10px"}
                             sx={{
@@ -76,7 +77,7 @@ export default function Login(){
                                     fullWidth
                                     variant="filled"
                                     type="text"
-                                    label="username"
+                                    label="Username"
                                     onBlur={handleBlur}
                                     onChange={handleChange}
                                     value={values.username}
