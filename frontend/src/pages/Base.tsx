@@ -11,7 +11,7 @@ export default function Base(){
     };
 
     const goHome = () => {
-        navigate("/home");
+        navigate("/conversations/@me");
     };
 
     return(
