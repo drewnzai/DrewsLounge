@@ -1,19 +1,8 @@
 import "react-pro-sidebar/dist/css/styles.css";
-import { Box, useTheme } from "@mui/material";
+import { Avatar, Box, useTheme } from "@mui/material";
 import { tokens } from "../theme";
 import { Menu, MenuItem, ProSidebar } from "react-pro-sidebar";
-
-const Conversation = ({conversationName}: {conversationName: string}) => {
-    
-    return(
-    <MenuItem style={{
-        width: "fit-content",
-        alignItems: "center"
-    }}
-    >
-        
-    </MenuItem>);
-};
+import InboxIcon from '@mui/icons-material/Inbox';
 
 export default function Sidebar(){
     
@@ -41,10 +30,14 @@ export default function Sidebar(){
           }}
         >
         <ProSidebar collapsed={true}
-        collapsedWidth={"80px"}
+        collapsedWidth={"75px"}
         >
             <Menu>
-                <Conversation conversationName="user2"/>
+              <MenuItem
+              icon={<InboxIcon/>}
+              >
+
+              </MenuItem>
             </Menu>
         </ProSidebar>
 
