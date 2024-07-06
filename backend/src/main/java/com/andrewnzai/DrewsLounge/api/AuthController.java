@@ -1,7 +1,7 @@
 package com.andrewnzai.DrewsLounge.api;
 
 import com.andrewnzai.DrewsLounge.dtos.LoginRequest;
-import com.andrewnzai.DrewsLounge.dtos.MiscResponse;
+import com.andrewnzai.DrewsLounge.dtos.APIResponse;
 import com.andrewnzai.DrewsLounge.dtos.RefreshTokenRequest;
 import com.andrewnzai.DrewsLounge.dtos.RegisterRequest;
 import com.andrewnzai.DrewsLounge.services.AuthService;
@@ -56,13 +56,13 @@ public class AuthController {
             return authService.login(loginRequest);
         }
         catch(BadCredentialsException e){
-            return MiscResponse.builder().data("Wrong password").build();
+            return APIResponse.builder().data("Wrong password").build();
         }
         catch(UsernameNotFoundException | NullPointerException e){
-            return MiscResponse.builder().data("Username does not exist").build();
+            return APIResponse.builder().data("Username does not exist").build();
         }
         catch(Exception e){
-            return MiscResponse.builder().data("Verify account").build();
+            return APIResponse.builder().data("Verify account").build();
         }
         
     }
