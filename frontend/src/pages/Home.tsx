@@ -6,13 +6,14 @@ export default function Home(){
 
     return(
        user? <div className="app">
-                
+
             <main className="content">
             
             <Outlet/>
             </main>
 
         </div>
+        
         : <Navigate to={"/login"}/>
     );
 }
