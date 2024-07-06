@@ -1,13 +1,18 @@
+import { Navigate, Outlet } from "react-router-dom";
+
 export default function Home(){
+    
+    const user: any | null = localStorage.getItem("user");
 
     return(
-        <>
-        <div className="app">
-            <div className="content">
-            <h1>Home</h1>
-            </div>
+       user? <div className="app">
+                
+            <main className="content">
+            
+            <Outlet/>
+            </main>
 
         </div>
-        </>
+        : <Navigate to={"/login"}/>
     );
 }
