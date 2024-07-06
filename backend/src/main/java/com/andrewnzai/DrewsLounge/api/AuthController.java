@@ -24,14 +24,14 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("signup")
-    public ResponseEntity<String> signup(@RequestBody RegisterRequest registerRequest) throws Exception {
+    public Object signup(@RequestBody RegisterRequest registerRequest) throws Exception {
         
         try{
             authService.signup(registerRequest);
-            return new ResponseEntity<>("Account created successfully, verification email sent to your email", OK);
+            return null;
         }
         catch(Exception e){
-            return new ResponseEntity<>("Account not created, username already exists", CONFLICT);
+            return APIResponse.builder().data("Registration incomplete: username already exists").build();
         }
 
     }
