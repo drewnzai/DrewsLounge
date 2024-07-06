@@ -7,9 +7,10 @@ export default function Entrypoint(){
 
     return(
        user? <div className="app">
+                
                 <Sidebar/>
+
             <main className="content">
-            
             <Outlet/>
             </main>
 
