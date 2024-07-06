@@ -13,12 +13,12 @@ export default class AuthService{
         axios.post(base_url + "signup", registerRequest)
             .then(
                 (response) => {
-                    if(response.status === 200){
-                        toast.success("Signup succesful, check email for verification steps");
-                        this.navigate("/verifyaccount");
+                    if(response.data.data){
+                        toast.error(response.data.data);
+                        return;
                     }
-                    else if(response.status === 409){
-                        toast.error("Signup unsuccessful, username already in use. Retry");
+                    else{
+                        this.navigate("/verifyaccount");
                     }
 
                     return response;
