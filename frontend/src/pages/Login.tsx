@@ -104,13 +104,18 @@ export default function Login(){
 
                             />
 
-
+                        
                         </Box>
                         <Box display="flex" justifyContent="center" mt="20px">
 
                             <Button type="submit" color="secondary" variant="contained">
                                 Login
                             </Button>
+                        
+                        <h4>No account? 
+                            <a href="/register"> Sign up here</a>
+                        </h4>
+                        
                         </Box>
                     </form>
                 )}

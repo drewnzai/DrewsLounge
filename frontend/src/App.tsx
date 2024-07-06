@@ -5,6 +5,7 @@ import { ColorModeContext, useMode } from './theme';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import AccountVerification from './pages/AccountVerification';
 import Login from './pages/Login';
+import Register from './pages/Register';
 
 function App() {
 
@@ -24,6 +25,7 @@ function App() {
       <BrowserRouter>
       <Routes>
         <Route path="/login" element={<Login/>}/>
+        <Route path="/register" element={<Register/>}/>
         <Route path="/verifyaccount" element={<AccountVerification/>}/>
       </Routes>
       </BrowserRouter>
