@@ -8,4 +8,8 @@ import com.andrewnzai.DrewsLounge.models.Conversation;
 @Repository
 public interface ConversationRepository extends JpaRepository<Conversation, Long>{
 
+    boolean existsByName(String conversationName);
+
+    Conversation findByName(String conversationName);
+
 }
