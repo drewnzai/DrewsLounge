@@ -28,7 +28,7 @@ public class ConversationController {
         }
         catch(Exception e){
             return APIResponse.builder()
-                    .data(e.getMessage());
+                    .data(e.getMessage()).build();
         }
     }
 
