@@ -5,18 +5,41 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.andrewnzai.DrewsLounge.dtos.APIResponse;
+import com.andrewnzai.DrewsLounge.dtos.MessageDto;
+import com.andrewnzai.DrewsLounge.services.MessageService;
+
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 
 @RestController
-@RequestMapping("/api/auth/")
+@RequestMapping("/api/conversation/")
 @AllArgsConstructor
 @Tag(name = "Conversation endpoint", description = "Provides a point for all conversation related functionality")
 public class ConversationController {
 
+    private final MessageService messageService;
+
     @PostMapping("sendMessage")
-    public Object sendMessage(){
-        // TO-DO create message service and message DTO
+    public Object sendMessage(@RequestBody MessageDto messageDto) throws Exception{
+        try{
+            messageService.sendMessage(messageDto);
+            return null;
+        }
+        catch(Exception e){
+            return APIResponse.builder()
+                    .data(e.getMessage());
+        }
+    }
+
+    @PostMapping
+    public Object createPrivateConversation(){
         return null;
     }
+
+    @PostMapping
+    public Object createGroup(){
+        return null;
+    }
+    
 }
