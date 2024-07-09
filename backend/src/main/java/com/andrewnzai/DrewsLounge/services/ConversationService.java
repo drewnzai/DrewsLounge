@@ -85,22 +85,12 @@ public class ConversationService {
     }
 
     public void deletePrivateConversation(String conversationName) throws Exception{
+        
         if(conversationRepository.existsByName(conversationName)){
+
             Conversation conversation = conversationRepository.findByName(conversationName);
 
-            List<User> users = userConversationRepository.findAllUsersByConversation(conversation);
-
-            for(User user: users){
-                userConversationRepository.deleteByUser(user);
-            }
-
-            List<Message> messages = messageRepository.findAllByConversation(conversation);
-            
-            for(Message message: messages){
-                messageRepository.delete(message);
-            }
-
-            conversationRepository.delete(conversation);
+            deleteConversation(conversation);
         }
         else{
             throw new Exception("No conversation with that name exists");
@@ -113,19 +103,7 @@ public class ConversationService {
             Conversation conversation = conversationRepository.findByName(groupName);
 
             if(groupAdminRepository.existsByOwnerAndGroup(authService.getCurrentUser(), conversation)){
-                List<User> users = userConversationRepository.findAllUsersByConversation(conversation);
-
-                for(User user: users){
-                    userConversationRepository.deleteByUser(user);
-                }
-
-                List<Message> messages = messageRepository.findAllByConversation(conversation);
-                
-                for(Message message: messages){
-                    messageRepository.delete(message);
-                }
-
-                conversationRepository.delete(conversation);
+                deleteConversation(conversation);
             }
             else{
                 throw new Exception("You are not the group admin");
@@ -134,5 +112,21 @@ public class ConversationService {
         else{
             throw new Exception("No group with that name exists");
         }
+    }
+
+    private void deleteConversation(Conversation conversation){
+        List<User> users = userConversationRepository.findAllUsersByConversation(conversation);
+
+            for(User user: users){
+                userConversationRepository.deleteByUser(user);
+            }
+
+            List<Message> messages = messageRepository.findAllByConversation(conversation);
+            
+            for(Message message: messages){
+                messageRepository.delete(message);
+            }
+
+            conversationRepository.delete(conversation);
     }
 }
