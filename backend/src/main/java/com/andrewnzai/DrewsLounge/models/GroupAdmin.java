@@ -23,7 +23,7 @@ public class GroupAdmin {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User user;
+    private User owner;
 
     @ManyToOne
     @JoinColumn(name = "conversation_id")
