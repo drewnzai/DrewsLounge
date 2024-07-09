@@ -64,8 +64,10 @@ public class ConversationService {
             
             conversationRepository.save(conversation);
 
+            User owner = authService.getCurrentUser();
+
             UserConversation userConversation = new UserConversation();
-            userConversation.setUser(authService.getCurrentUser());
+            userConversation.setUser(owner);
             userConversation.setConversation(conversation);
 
             userConversationRepository.save(userConversation);
@@ -100,7 +102,7 @@ public class ConversationService {
 
         if(conversationRepository.existsByName(groupName)){
             Conversation conversation = conversationRepository.findByName(groupName);
-            
+
 
         }
         else{
