@@ -1,9 +1,11 @@
 package com.andrewnzai.DrewsLounge.services;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.andrewnzai.DrewsLounge.dtos.ConversationDto;
 import com.andrewnzai.DrewsLounge.dtos.ConversationRequest;
 import com.andrewnzai.DrewsLounge.models.Conversation;
 import com.andrewnzai.DrewsLounge.models.GroupAdmin;
@@ -142,6 +144,21 @@ public class ConversationService {
         }else{
             throw new Exception("User with name: " + conversationRequest.getUsername1() + " does not exist");
         }
+    }
+
+    public List<ConversationDto> getConversations(){
+        List<ConversationDto> conversationDtos = new ArrayList<>();
+
+        User user = authService.getCurrentUser();
+
+        List<Conversation> conversations = conversationRepository.findAllByUser(user);
+
+        for(Conversation conversation: conversations){
+            ConversationDto conversationDto = new ConversationDto(conversation.getName());
+            conversationDtos.add(conversationDto);
+        }
+
+        return conversationDtos;
     }
 
     private void deleteConversation(Conversation conversation){
