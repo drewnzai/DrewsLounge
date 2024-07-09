@@ -22,6 +22,7 @@ public class ConversationService {
     private final MessageRepository messageRepository;
     private final UserConversationRepository userConversationRepository;
     private final UserRepository userRepository;
+    private final AuthService authService;
 
     public void createPrivateConversation(String username1, String username2) throws Exception{
         User user1 = userRepository.findByUsername(username1);
@@ -60,10 +61,15 @@ public class ConversationService {
         else{
             Conversation conversation = new Conversation();
             conversation.setName(groupName);
-
-            // TO-DO add group creator in conversation
-
+            
             conversationRepository.save(conversation);
+
+            UserConversation userConversation = new UserConversation();
+            userConversation.setUser(authService.getCurrentUser());
+            userConversation.setConversation(conversation);
+
+            userConversationRepository.save(userConversation);
+            
         }
     }
 
@@ -77,13 +83,12 @@ public class ConversationService {
                 userConversationRepository.deleteByUser(user);
             }
 
-            // TO-DO delete messages
             List<Message> messages = messageRepository.findAllByConversation(conversation);
             
             for(Message message: messages){
                 messageRepository.delete(message);
             }
-            
+
             conversationRepository.delete(conversation);
         }
     }
