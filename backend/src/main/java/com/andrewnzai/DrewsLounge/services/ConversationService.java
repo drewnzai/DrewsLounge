@@ -113,6 +113,33 @@ public class ConversationService {
             throw new Exception("No group with that name exists");
         }
     }
+    
+    // Nested-if madness
+    public void addUserToGroup(String username, String groupName) throws Exception{
+        if(userRepository.existsByUsername(username)){
+            if(conversationRepository.existsByName(groupName)){
+                
+                Conversation conversation = conversationRepository.findByName(groupName);
+
+                if(groupAdminRepository.
+                existsByOwnerAndGroup(authService.getCurrentUser(), conversation)){
+                    
+                    UserConversation userConversation = new UserConversation();
+                    userConversation.setUser(userRepository.findByUsername(username));
+                    userConversation.setConversation(conversation);
+
+                }
+                else{
+                    throw new Exception("You are not the group admin");
+                }
+            }
+            else{
+                throw new Exception("Group with name: " + groupName + " does not exist");
+            }
+        }else{
+            throw new Exception("User with name: " + username + " does not exist");
+        }
+    }
 
     private void deleteConversation(Conversation conversation){
         List<User> users = userConversationRepository.findAllUsersByConversation(conversation);
