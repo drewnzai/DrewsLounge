@@ -20,7 +20,7 @@ public class ConversationController {
 
     private final MessageService messageService;
 
-    @PostMapping("sendMessage")
+    @PostMapping("send-message")
     public Object sendMessage(@RequestBody MessageDto messageDto) throws Exception{
         try{
             messageService.sendMessage(messageDto);
@@ -32,14 +32,14 @@ public class ConversationController {
         }
     }
 
-    @PostMapping
+    @PostMapping("create-private")
     public Object createPrivateConversation(){
         return null;
     }
 
-    @PostMapping
+    @PostMapping("create-group")
     public Object createGroup(){
         return null;
     }
-    
+
 }
