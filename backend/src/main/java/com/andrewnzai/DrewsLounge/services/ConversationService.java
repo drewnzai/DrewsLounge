@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.andrewnzai.DrewsLounge.dtos.ConversationRequest;
 import com.andrewnzai.DrewsLounge.models.Conversation;
 import com.andrewnzai.DrewsLounge.models.GroupAdmin;
 import com.andrewnzai.DrewsLounge.models.Message;
@@ -20,6 +21,8 @@ import lombok.AllArgsConstructor;
 @Service
 @AllArgsConstructor
 public class ConversationService {
+
+// To-DO implement a way for private conversation names to be interchangeable i.e user1-user2 or user2-user1
     private final ConversationRepository conversationRepository;
     private final MessageRepository messageRepository;
     private final UserConversationRepository userConversationRepository;
@@ -27,9 +30,9 @@ public class ConversationService {
     private final AuthService authService;
     private final GroupAdminRepository groupAdminRepository;
 
-    public void createPrivateConversation(String username1, String username2) throws Exception{
-        User user1 = userRepository.findByUsername(username1);
-        User user2 = userRepository.findByUsername(username2);
+    public void createPrivateConversation(ConversationRequest conversationRequest) throws Exception{
+        User user1 = userRepository.findByUsername(conversationRequest.getUsername1());
+        User user2 = userRepository.findByUsername(conversationRequest.getUsername2());
 
         String conversationName = user1.getUsername() + "-" + user2.getUsername();
 
@@ -57,13 +60,13 @@ public class ConversationService {
         }
     }
 
-    public void createGroupConversation(String groupName) throws Exception{
-        if(conversationRepository.existsByName(groupName)){
+    public void createGroupConversation(ConversationRequest conversationRequest) throws Exception{
+        if(conversationRepository.existsByName(conversationRequest.getGroupName())){
             throw new Exception("Group name already exists");
         }
         else{
             Conversation conversation = new Conversation();
-            conversation.setName(groupName);
+            conversation.setName(conversationRequest.getGroupName());
             
             conversationRepository.save(conversation);
 
@@ -84,8 +87,8 @@ public class ConversationService {
         }
     }
 
-    public void deletePrivateConversation(String conversationName) throws Exception{
-        
+    public void deletePrivateConversation(ConversationRequest conversationRequest) throws Exception{
+        String conversationName = conversationRequest.getUsername1() + "-" + conversationRequest.getUsername2();
         if(conversationRepository.existsByName(conversationName)){
 
             Conversation conversation = conversationRepository.findByName(conversationName);
@@ -97,10 +100,10 @@ public class ConversationService {
         }
     }
 
-    public void deleteGroup(String groupName) throws Exception{
+    public void deleteGroup(ConversationRequest conversationRequest) throws Exception{
 
-        if(conversationRepository.existsByName(groupName)){
-            Conversation conversation = conversationRepository.findByName(groupName);
+        if(conversationRepository.existsByName(conversationRequest.getGroupName())){
+            Conversation conversation = conversationRepository.findByName(conversationRequest.getGroupName());
 
             if(groupAdminRepository.existsByOwnerAndGroup(authService.getCurrentUser(), conversation)){
                 deleteConversation(conversation);
@@ -115,17 +118,17 @@ public class ConversationService {
     }
     
     // Nested-if madness
-    public void addUserToGroup(String username, String groupName) throws Exception{
-        if(userRepository.existsByUsername(username)){
-            if(conversationRepository.existsByName(groupName)){
+    public void addUserToGroup(ConversationRequest conversationRequest) throws Exception{
+        if(userRepository.existsByUsername(conversationRequest.getUsername1())){
+            if(conversationRepository.existsByName(conversationRequest.getGroupName())){
                 
-                Conversation conversation = conversationRepository.findByName(groupName);
+                Conversation conversation = conversationRepository.findByName(conversationRequest.getGroupName());
 
                 if(groupAdminRepository.
                 existsByOwnerAndGroup(authService.getCurrentUser(), conversation)){
                     
                     UserConversation userConversation = new UserConversation();
-                    userConversation.setUser(userRepository.findByUsername(username));
+                    userConversation.setUser(userRepository.findByUsername(conversationRequest.getUsername1()));
                     userConversation.setConversation(conversation);
 
                 }
@@ -134,10 +137,10 @@ public class ConversationService {
                 }
             }
             else{
-                throw new Exception("Group with name: " + groupName + " does not exist");
+                throw new Exception("Group with name: " + conversationRequest.getGroupName()+ " does not exist");
             }
         }else{
-            throw new Exception("User with name: " + username + " does not exist");
+            throw new Exception("User with name: " + conversationRequest.getUsername1() + " does not exist");
         }
     }
 
