@@ -18,4 +18,6 @@ public interface UserConversationRepository extends JpaRepository<UserConversati
 
     boolean existsByUserAndConversation(User user, Conversation conversation);
 
+    List<Conversation> findAllConversationsByUser(User user);
+
 }

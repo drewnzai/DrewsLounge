@@ -15,6 +15,4 @@ public interface ConversationRepository extends JpaRepository<Conversation, Long
 
     Conversation findByName(String conversationName);
 
-    List<Conversation> findAllByUser(User user);
-
 }

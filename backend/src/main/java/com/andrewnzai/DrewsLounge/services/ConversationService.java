@@ -151,7 +151,7 @@ public class ConversationService {
 
         User user = authService.getCurrentUser();
 
-        List<Conversation> conversations = conversationRepository.findAllByUser(user);
+        List<Conversation> conversations = userConversationRepository.findAllConversationsByUser(user);
 
         for(Conversation conversation: conversations){
             ConversationDto conversationDto = new ConversationDto(conversation.getName());
