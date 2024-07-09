@@ -1,11 +1,15 @@
 package com.andrewnzai.DrewsLounge.api;
 
+import java.util.List;
+
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.andrewnzai.DrewsLounge.dtos.APIResponse;
+import com.andrewnzai.DrewsLounge.dtos.ConversationDto;
 import com.andrewnzai.DrewsLounge.dtos.ConversationRequest;
 import com.andrewnzai.DrewsLounge.dtos.MessageDto;
 import com.andrewnzai.DrewsLounge.services.ConversationService;
@@ -57,6 +61,11 @@ public class ConversationController {
             return APIResponse.builder()
                     .data(e.getMessage()).build();
         }
+    }
+
+    @GetMapping("all")
+    public List<ConversationDto> getAllConversations(){
+        return conversationService.getConversations();
     }
 
 }
