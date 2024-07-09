@@ -27,6 +27,6 @@ public class GroupAdmin {
 
     @ManyToOne
     @JoinColumn(name = "conversation_id")
-    private Conversation conversation;
+    private Conversation group;
 
 }
