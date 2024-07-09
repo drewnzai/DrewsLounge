@@ -73,7 +73,7 @@ public class ConversationService {
         }
     }
 
-    public void deleteConversation(String conversationName) throws Exception{
+    public void deletePrivateConversation(String conversationName) throws Exception{
         if(conversationRepository.existsByName(conversationName)){
             Conversation conversation = conversationRepository.findByName(conversationName);
 
@@ -92,7 +92,19 @@ public class ConversationService {
             conversationRepository.delete(conversation);
         }
         else{
-            throw new Exception("No chat or group with that name");
+            throw new Exception("No conversation with that name exists");
+        }
+    }
+
+    public void deleteGroup(String groupName) throws Exception{
+
+        if(conversationRepository.existsByName(groupName)){
+            Conversation conversation = conversationRepository.findByName(groupName);
+            
+
+        }
+        else{
+            throw new Exception("No group with that name exists");
         }
     }
 }
