@@ -74,7 +74,7 @@ public class ConversationService {
             groupAdmin.setGroup(conversation);
 
             groupAdminRepository.save(groupAdmin);
-            
+
             UserConversation userConversation = new UserConversation();
             userConversation.setUser(owner);
             userConversation.setConversation(conversation);
@@ -112,7 +112,24 @@ public class ConversationService {
         if(conversationRepository.existsByName(groupName)){
             Conversation conversation = conversationRepository.findByName(groupName);
 
+            if(groupAdminRepository.existsByOwnerAndGroup(authService.getCurrentUser(), conversation)){
+                List<User> users = userConversationRepository.findAllUsersByConversation(conversation);
 
+                for(User user: users){
+                    userConversationRepository.deleteByUser(user);
+                }
+
+                List<Message> messages = messageRepository.findAllByConversation(conversation);
+                
+                for(Message message: messages){
+                    messageRepository.delete(message);
+                }
+
+                conversationRepository.delete(conversation);
+            }
+            else{
+                throw new Exception("You are not the group admin");
+            }
         }
         else{
             throw new Exception("No group with that name exists");
