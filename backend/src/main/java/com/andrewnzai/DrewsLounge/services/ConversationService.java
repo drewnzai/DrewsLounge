@@ -73,7 +73,7 @@ public class ConversationService {
         }
     }
 
-    public void deleteConversation(String conversationName){
+    public void deleteConversation(String conversationName) throws Exception{
         if(conversationRepository.existsByName(conversationName)){
             Conversation conversation = conversationRepository.findByName(conversationName);
 
@@ -90,6 +90,9 @@ public class ConversationService {
             }
 
             conversationRepository.delete(conversation);
+        }
+        else{
+            throw new Exception("No chat or group with that name");
         }
     }
 }
