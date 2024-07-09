@@ -5,10 +5,12 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.andrewnzai.DrewsLounge.models.Conversation;
+import com.andrewnzai.DrewsLounge.models.GroupAdmin;
 import com.andrewnzai.DrewsLounge.models.Message;
 import com.andrewnzai.DrewsLounge.models.User;
 import com.andrewnzai.DrewsLounge.models.UserConversation;
 import com.andrewnzai.DrewsLounge.repositories.ConversationRepository;
+import com.andrewnzai.DrewsLounge.repositories.GroupAdminRepository;
 import com.andrewnzai.DrewsLounge.repositories.UserConversationRepository;
 import com.andrewnzai.DrewsLounge.repositories.UserRepository;
 import com.andrewnzai.DrewsLounge.repositories.MessageRepository;
@@ -23,6 +25,7 @@ public class ConversationService {
     private final UserConversationRepository userConversationRepository;
     private final UserRepository userRepository;
     private final AuthService authService;
+    private final GroupAdminRepository groupAdminRepository;
 
     public void createPrivateConversation(String username1, String username2) throws Exception{
         User user1 = userRepository.findByUsername(username1);
@@ -65,7 +68,13 @@ public class ConversationService {
             conversationRepository.save(conversation);
 
             User owner = authService.getCurrentUser();
+            
+            GroupAdmin groupAdmin = new GroupAdmin();
+            groupAdmin.setOwner(owner);
+            groupAdmin.setGroup(conversation);
 
+            groupAdminRepository.save(groupAdmin);
+            
             UserConversation userConversation = new UserConversation();
             userConversation.setUser(owner);
             userConversation.setConversation(conversation);
