@@ -1,10 +1,11 @@
 import "react-pro-sidebar/dist/css/styles.css";
-import { Box, Typography, useTheme } from "@mui/material";
+import { Box, useTheme } from "@mui/material";
 import { tokens } from "../theme";
 import { Menu, MenuItem, ProSidebar } from "react-pro-sidebar";
 import InboxIcon from '@mui/icons-material/Inbox';
+import { Conversation } from "../models/Conversation";
 
-export default function Sidebar(){
+export default function Sidebar({conversations}: {conversations: Conversation[]}){
     
     const theme = useTheme();
     const colours = tokens(theme.palette.mode);
@@ -43,11 +44,15 @@ export default function Sidebar(){
               <MenuItem
               icon={<InboxIcon/>}
               >
-                <Typography variant="h6">
-                  Chats
-                </Typography>
-              </MenuItem>
+                {conversations.map(
+                  (conversation) => (
+                    <div>
+                      <span>{conversation.conversationName}</span>
+                    </div>
+                  )
+                )}
 
+                </MenuItem>
             </Menu>
         </ProSidebar>
 
