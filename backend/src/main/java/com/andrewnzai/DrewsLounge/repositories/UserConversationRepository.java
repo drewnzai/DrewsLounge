@@ -16,4 +16,6 @@ public interface UserConversationRepository extends JpaRepository<UserConversati
 
     void deleteByUser(User user);
 
+    boolean existsByUserAndConversation(User user, Conversation conversation);
+
 }
