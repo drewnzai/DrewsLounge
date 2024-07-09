@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.andrewnzai.DrewsLounge.models.Conversation;
+import com.andrewnzai.DrewsLounge.models.Message;
 import com.andrewnzai.DrewsLounge.models.User;
 import com.andrewnzai.DrewsLounge.models.UserConversation;
 import com.andrewnzai.DrewsLounge.repositories.ConversationRepository;
@@ -60,6 +61,8 @@ public class ConversationService {
             Conversation conversation = new Conversation();
             conversation.setName(groupName);
 
+            // TO-DO add group creator in conversation
+
             conversationRepository.save(conversation);
         }
     }
@@ -75,7 +78,12 @@ public class ConversationService {
             }
 
             // TO-DO delete messages
-
+            List<Message> messages = messageRepository.findAllByConversation(conversation);
+            
+            for(Message message: messages){
+                messageRepository.delete(message);
+            }
+            
             conversationRepository.delete(conversation);
         }
     }
