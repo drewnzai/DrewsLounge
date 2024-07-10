@@ -4,9 +4,10 @@ import { tokens } from "../theme";
 import { Menu, MenuItem, ProSidebar } from "react-pro-sidebar";
 import InboxIcon from '@mui/icons-material/Inbox';
 import { Conversation } from "../models/Conversation";
+import { useConversations } from "../pages/Entrypoint";
 
-export default function Sidebar({conversations}: {conversations: Conversation[]}){
-    
+export default function Sidebar(){
+  const { conversations, addConversation } = useConversations();
     const theme = useTheme();
     const colours = tokens(theme.palette.mode);
 
