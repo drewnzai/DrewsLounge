@@ -1,8 +1,11 @@
 import { useState } from "react";
 import { ConversationRequest } from "../models/ConversationRequest";
 import ConversationService from "../services/ConversationService.service";
+import { useConversations } from "./Entrypoint";
+import { Conversation } from "../models/Conversation";
 
 export default function Home(){
+    const { conversations, addConversation } = useConversations();
     const [userName, setUserName] = useState("");
     const [conversationRequest, setConversationRequest] = useState<ConversationRequest>({
         username1: null,
@@ -19,8 +22,15 @@ const handlePrivateConversation = () => {
             username1: userName
         })
     )
+    if(conversationService.createPrivateConversation(conversationRequest)){
 
-    conversationService.createPrivateConversation(conversationRequest);
+        const newConversation: Conversation = {
+            conversationName: conversationRequest!.username1!
+        }
+    
+        addConversation(newConversation)
+    }
+    
 
     setUserName('');
 
