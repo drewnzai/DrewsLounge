@@ -5,7 +5,7 @@ import { useConversations } from "./Entrypoint";
 import { Conversation } from "../models/Conversation";
 
 export default function Home(){
-    const { conversations, addConversation } = useConversations();
+    const { addConversation } = useConversations();
     const [userName, setUserName] = useState("");
     const [conversationRequest, setConversationRequest] = useState<ConversationRequest>({
         username1: null,
@@ -31,7 +31,7 @@ const handlePrivateConversation = () => {
                     const newConversation: Conversation = {
                         conversationName: conversationRequest!.username1!
                     }
-                    
+
                     addConversation(newConversation)
                 }
             }
