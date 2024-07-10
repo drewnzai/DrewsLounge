@@ -2,7 +2,6 @@ import axios from 'axios';
 import { RefreshTokenRequest } from '../models/RefreshTokenRequest';
 import { useNavigate } from 'react-router-dom';
 
-const navigate = useNavigate();
 
 const ApiInterceptor = axios.create({
   baseURL: 'http://localhost:8080/api/',
@@ -65,10 +64,10 @@ ApiInterceptor.interceptors.response.use(
                 
                 
                 // Retry the original request with the new token
-              } catch (error) {
+              }
+              catch (error) {
                 console.log(error);
-                navigate("/login");
-        }
+              }
       }
   
       return Promise.reject(error);
