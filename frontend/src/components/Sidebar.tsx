@@ -7,7 +7,7 @@ import { Conversation } from "../models/Conversation";
 import { useConversations } from "../pages/Entrypoint";
 
 export default function Sidebar(){
-    const { conversations, addConversation } = useConversations();
+    const { conversations } = useConversations();
     const theme = useTheme();
     const colours = tokens(theme.palette.mode);
 
