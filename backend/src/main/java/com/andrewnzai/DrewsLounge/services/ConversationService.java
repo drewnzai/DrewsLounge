@@ -151,29 +151,29 @@ public class ConversationService {
 
         User user = authService.getCurrentUser();
 
-        List<Conversation> conversations = userConversationRepository.findAllConversationsByUser(user);
+        List<UserConversation> userConversations = userConversationRepository.findAllByUser(user);
 
-        for(Conversation conversation: conversations){
-            ConversationDto conversationDto = new ConversationDto(conversation.getName());
+        for(UserConversation userConversation: userConversations){
+            ConversationDto conversationDto = new ConversationDto(userConversation.getConversation().getName());
             conversationDtos.add(conversationDto);
         }
 
-        return conversationDtos;
+       return conversationDtos;
     }
 
     private void deleteConversation(Conversation conversation){
-        List<User> users = userConversationRepository.findAllUsersByConversation(conversation);
+        List<UserConversation> userConversations = userConversationRepository.findAllByConversation(conversation);
 
-            for(User user: users){
-                userConversationRepository.deleteByUser(user);
-            }
-
-            List<Message> messages = messageRepository.findAllByConversation(conversation);
+        for(UserConversation userConversation: userConversations){
+            userConversationRepository.delete(userConversation);
+        }
+        
+        List<Message> messages = messageRepository.findAllByConversation(conversation);
             
-            for(Message message: messages){
-                messageRepository.delete(message);
-            }
+        for(Message message: messages){
+            messageRepository.delete(message);
+        }
 
-            conversationRepository.delete(conversation);
+       conversationRepository.delete(conversation);
     }
 }

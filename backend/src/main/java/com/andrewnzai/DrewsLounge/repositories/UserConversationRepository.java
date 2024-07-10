@@ -11,13 +11,9 @@ import com.andrewnzai.DrewsLounge.models.UserConversation;
 
 @Repository
 public interface UserConversationRepository extends JpaRepository<UserConversation, Long>{
-
-    List<User> findAllUsersByConversation(Conversation conversation);
-
     void deleteByUser(User user);
-
     boolean existsByUserAndConversation(User user, Conversation conversation);
-
-    List<Conversation> findAllConversationsByUser(User user);
+    List<UserConversation> findAllByUser(User user);
+    List<UserConversation> findAllByConversation(Conversation conversation);
 
 }
