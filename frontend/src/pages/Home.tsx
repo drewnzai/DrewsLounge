@@ -22,14 +22,20 @@ const handlePrivateConversation = () => {
             username1: userName
         })
     )
-    if(conversationService.createPrivateConversation(conversationRequest)){
 
-        const newConversation: Conversation = {
-            conversationName: conversationRequest!.username1!
-        }
-    
-        addConversation(newConversation)
-    }
+    conversationService.createPrivateConversation(conversationRequest)
+        .then(
+            (response) => {
+                if(response){
+
+                    const newConversation: Conversation = {
+                        conversationName: conversationRequest!.username1!
+                    }
+                    
+                    addConversation(newConversation)
+                }
+            }
+        )
     
 
     setUserName('');

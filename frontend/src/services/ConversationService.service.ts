@@ -22,9 +22,10 @@ export default class ConversationService{
                 (response) => {
                     if(response.data.data){
                         toast.error(response.data.data);
+                        return false;
                     }else{
-
                         toast.success("Created private conversation successfully");
+                        return true;
                     }
 
                 }
