@@ -3,7 +3,7 @@ import ApiInterceptor from "../auth/ApiInterceptor";
 export default class ConversationService{
 
     getAllConversations(){
-        return ApiInterceptor.post("conversation/all")
+        return ApiInterceptor.get("conversation/all")
         .then(
             (response) => {
                 if(response.data){
