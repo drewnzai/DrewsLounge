@@ -34,9 +34,9 @@ public class ConversationService {
 
     public void createPrivateConversation(ConversationRequest conversationRequest) throws Exception{
         User user1 = userRepository.findByUsername(conversationRequest.getUsername1());
-        User user2 = userRepository.findByUsername(conversationRequest.getUsername2());
+        User user2 = authService.getCurrentUser();
 
-        String conversationName = user1.getUsername() + "-" + user2.getUsername();
+        String conversationName = user2.getUsername() + "-" + user1.getUsername();
 
         if(conversationRepository.existsByName(conversationName)){
             throw new Exception("Conversation already exists");
@@ -154,7 +154,7 @@ public class ConversationService {
         List<UserConversation> userConversations = userConversationRepository.findAllByUser(user);
 
         for(UserConversation userConversation: userConversations){
-            ConversationDto conversationDto = new ConversationDto(userConversation.getConversation().getName());
+            ConversationDto conversationDto = new ConversationDto(userConversation.getConversation().getName().replace(user.getUsername() + "-", ""));
             conversationDtos.add(conversationDto);
         }
 
