@@ -44,6 +44,8 @@ export default function Sidebar({conversations}: {conversations: Conversation[]}
               <MenuItem
               icon={<InboxIcon/>}
               >
+
+                </MenuItem>
                 {conversations.map(
                   (conversation) => (
                     <MenuItem>
@@ -52,8 +54,6 @@ export default function Sidebar({conversations}: {conversations: Conversation[]}
                   )
                 )
               }
-
-                </MenuItem>
             </Menu>
         </ProSidebar>
 

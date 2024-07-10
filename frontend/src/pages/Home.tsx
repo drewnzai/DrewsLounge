@@ -22,6 +22,8 @@ const handlePrivateConversation = () => {
 
     conversationService.createPrivateConversation(conversationRequest);
 
+    setUserName('');
+
 }
     return(
         <div>
