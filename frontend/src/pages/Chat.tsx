@@ -53,7 +53,7 @@ const Chat = () => {
         })
         )
 
-        
+        conversationService.sendMessage(message);
     }
 
     return (
