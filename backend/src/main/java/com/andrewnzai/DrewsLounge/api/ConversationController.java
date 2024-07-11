@@ -27,7 +27,7 @@ public class ConversationController {
     private final MessageService messageService;
     private final ConversationService conversationService;
 
-    @GetMapping("messages")
+    @PostMapping("messages")
     public Object getMessages(@RequestBody ConversationDto conversationDto){
         try{
             return conversationService.getMessagesFromConversation(conversationDto);
