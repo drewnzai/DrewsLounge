@@ -19,7 +19,6 @@ const Chat = () => {
     const [stompClient, setStompClient] = useState<CompatClient| null>(null);
     const location = useLocation();
     const conversation: Conversation = location.state;
-    const username = "";
     const authService = new AuthService();
     const conversationService = new ConversationService();
 
@@ -48,7 +47,7 @@ const Chat = () => {
         (prev) => ({
             ...prev,
                 content: messageContent,
-                conversationName: "user1" + conversation.conversationName
+                conversationName: conversation.conversationName
             
         })
         )
