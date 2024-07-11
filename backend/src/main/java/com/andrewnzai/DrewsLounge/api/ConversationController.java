@@ -27,6 +27,17 @@ public class ConversationController {
     private final MessageService messageService;
     private final ConversationService conversationService;
 
+    @GetMapping("messages")
+    public Object getMessages(@RequestBody ConversationDto conversationDto){
+        try{
+            return conversationService.getMessagesFromConversation(conversationDto);
+        }
+        catch(Exception e){
+            return APIResponse.builder()
+            .data(e.getMessage()).build();
+        }
+    }
+
     @PostMapping("send-message")
     public Object sendMessage(@RequestBody MessageDto messageDto){
         try{

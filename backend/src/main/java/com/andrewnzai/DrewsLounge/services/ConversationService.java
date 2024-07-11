@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.andrewnzai.DrewsLounge.dtos.ConversationDto;
 import com.andrewnzai.DrewsLounge.dtos.ConversationRequest;
+import com.andrewnzai.DrewsLounge.dtos.MessageDto;
 import com.andrewnzai.DrewsLounge.models.Conversation;
 import com.andrewnzai.DrewsLounge.models.GroupAdmin;
 import com.andrewnzai.DrewsLounge.models.Message;
@@ -159,6 +160,31 @@ public class ConversationService {
         }
 
        return conversationDtos;
+    }
+
+    public List<MessageDto> getMessagesFromConversation(ConversationDto conversationDto) throws Exception{
+        if(conversationRepository.existsByName(conversationDto.getConversationName())){
+            List<MessageDto> messageDtos = new ArrayList<>();
+
+            Conversation conversation = conversationRepository.findByName(conversationDto.getConversationName());
+            
+            List<Message> messages = messageRepository.findAllByConversation(conversation);
+
+            for(Message message: messages){
+                MessageDto messageDto = new MessageDto();
+                messageDto.setContent(message.getContent());
+                messageDto.setSender(message.getSender().getUsername());
+                messageDto.setConversationName(message.getConversation().getName());
+
+                messageDtos.add(messageDto);
+            }
+
+            return messageDtos;
+
+        }
+        else{
+            throw new Exception("No conversation with name "+ conversationDto.getConversationName() + " exists");
+        }
     }
 
     private void deleteConversation(Conversation conversation){
