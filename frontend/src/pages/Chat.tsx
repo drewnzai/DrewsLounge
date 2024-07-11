@@ -10,18 +10,19 @@ import ConversationService from '../services/ConversationService.service';
 
 
 const Chat = () => {
-    const [message, setMessage] = useState<Message>({
-        sender: "user1",
-        content: "",
-        conversationName: ""
-    });
     const [messageContent, setContent] = useState("");
     const [stompClient, setStompClient] = useState<CompatClient| null>(null);
     const location = useLocation();
     const conversation: Conversation = location.state;
     const authService = new AuthService();
     const conversationService = new ConversationService();
-
+    
+    const [message, setMessage] = useState<Message>({
+        sender: authService.getCurrentUsername(),
+        content: "",
+        conversationName: ""
+    });
+    
     // TO-DO change the backend to render full conversation name and modify it from here
     // Do the message functionality
     useEffect(() => {

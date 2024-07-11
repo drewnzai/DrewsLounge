@@ -42,4 +42,12 @@ export default class AuthService{
             }
         )
     }
+
+    getCurrentUsername(){
+        const userStr = localStorage.getItem("user");
+        if(userStr){
+            const user = JSON.parse(userStr);
+            return user.username;
+        }
+    }
 }
