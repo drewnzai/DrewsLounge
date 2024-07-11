@@ -154,7 +154,7 @@ public class ConversationService {
         List<UserConversation> userConversations = userConversationRepository.findAllByUser(user);
 
         for(UserConversation userConversation: userConversations){
-            ConversationDto conversationDto = new ConversationDto(userConversation.getConversation().getName().replace(user.getUsername() + "-", ""));
+            ConversationDto conversationDto = new ConversationDto(userConversation.getConversation().getName());
             conversationDtos.add(conversationDto);
         }
 
