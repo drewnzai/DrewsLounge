@@ -30,7 +30,7 @@ function App() {
       <Routes>
         <Route element={<Entrypoint/>}>
           <Route path="/conversations/@me" element={<Home/>}/>
-          <Route path="/conversation/@me/:conversationName" element={<Chat/>}/>
+          <Route path="/conversations/@me/:conversationName" element={<Chat/>}/>
         </Route>
         <Route path="/" element={<Base/>}/>
         <Route path="/login" element={<Login/>}/>

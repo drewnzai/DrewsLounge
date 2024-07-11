@@ -10,7 +10,12 @@ import ConversationService from '../services/ConversationService.service';
 
 
 const Chat = () => {
-    const [message, setMessage] = useState<Message | null>(null);
+    const [message, setMessage] = useState<Message>({
+        sender: "user1",
+        content: "",
+        conversationName: ""
+    });
+    const [messageContent, setContent] = useState("");
     const [stompClient, setStompClient] = useState<CompatClient| null>(null);
     const location = useLocation();
     const conversation: Conversation = location.state;
@@ -39,12 +44,25 @@ const Chat = () => {
     }, [conversation, stompClient]);
 
     const sendMessage = () => {
+        setMessage(
+        (prev) => ({
+            ...prev,
+                content: messageContent,
+                conversationName: "user1" + conversation.conversationName
+            
+        })
+        )
 
+        
     }
 
     return (
         <div>
-            <input type="text"/>
+            <input type="text" value={messageContent} onChange={
+                (e) => {
+                    setContent(e.target.value);
+                }
+            }/>
             <button onClick={sendMessage}>Send</button>
         </div>
     );
