@@ -44,4 +44,34 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer{
         registry.setApplicationDestinationPrefixes("/app");
     }
 
+    @Override
+    public void configureClientInboundChannel(ChannelRegistration registration) {
+        registration.interceptors(new ChannelInterceptor() {
+            @Override
+            public Message<?> preSend(Message<?> message, MessageChannel channel) {
+                StompHeaderAccessor accessor =
+                        MessageHeaderAccessor.getAccessor(message, StompHeaderAccessor.class);
+                log.info("Headers: {}", accessor);
+
+                assert accessor != null;
+                if (StompCommand.CONNECT.equals(accessor.getCommand())) {
+
+                    String authorizationHeader = accessor.getFirstNativeHeader("Authorization");
+                    assert authorizationHeader != null;
+                    String token = authorizationHeader.substring(7);
+
+                    String username = jwtUtil.getUsernameFromJwtToken(token);
+                    UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+                    UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = 
+                        new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                    SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+
+                    accessor.setUser(usernamePasswordAuthenticationToken);
+                }
+
+                return message;
+            }
+
+        });
+    }
 }
