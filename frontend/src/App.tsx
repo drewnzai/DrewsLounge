@@ -9,6 +9,7 @@ import Register from './pages/Register';
 import Entrypoint from './pages/Entrypoint';
 import Base from './pages/Base';
 import Home from './pages/Home';
+import Chat from './pages/Chat';
 
 function App() {
 
@@ -29,6 +30,7 @@ function App() {
       <Routes>
         <Route element={<Entrypoint/>}>
           <Route path="/conversations/@me" element={<Home/>}/>
+          <Route path="/conversation/@me/:conversationName" element={<Chat/>}/>
         </Route>
         <Route path="/" element={<Base/>}/>
         <Route path="/login" element={<Login/>}/>
