@@ -68,11 +68,15 @@ const Chat = () => {
     return (
         <div>
         <div>
-            {messages.map((msg, index) => (
+            {messages? messages.map((msg, index) => (
                 <div key={index}>
                     <strong>{msg.sender}:</strong> {msg.content}
                 </div>
-            ))}
+            )): 
+            <div>
+                <h2>No messages at the moment</h2>
+            </div>
+            }
         </div>
         <SendMessage conversation={conversation}/>
         </div>
