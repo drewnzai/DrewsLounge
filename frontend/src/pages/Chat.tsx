@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { CompatClient, Stomp } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
 import axios from 'axios';
@@ -7,63 +7,74 @@ import { Conversation } from '../models/Conversation';
 import { Message } from '../models/Message';
 import AuthService from '../services/AuthService.service';
 import ConversationService from '../services/ConversationService.service';
+import SendMessage from '../components/SendMessage';
 
 
 const Chat = () => {
     const [messageContent, setContent] = useState("");
+    const [messages, setMessages] = useState<Message[]>([]);
     const [stompClient, setStompClient] = useState<CompatClient| null>(null);
     const location = useLocation();
     const conversation: Conversation = location.state;
-    const authService = new AuthService();
     const conversationService = new ConversationService();
+    const authService = new AuthService();
+
     
-    const [message, setMessage] = useState<Message>({
-        sender: authService.getCurrentUsername(),
-        content: "",
-        conversationName: ""
-    });
+
+    const stompClientRef = useRef<CompatClient | null>(null);
     
     // TO-DO change the backend to render full conversation name and modify it from here
     // Do the message functionality
-    useEffect(() => {
+
+    const fetchPreviousMessages = useCallback(async () => {
+        conversationService.getMessages(conversation)
+            .then(
+                (response) => {
+                    setMessages(response);
+                }
+            )
+
+    }, [conversation]);
+    
+    const connectWebSocket = useCallback(() => {
         const socket = new SockJS('http://localhost:8080/ws');
-        const client = Stomp.over(socket);
+        const client = Stomp.over(() => socket);
 
         client.connect({}, () => {
-            client.subscribe(`/topic/conversation/${conversation.conversationName}`, (msg) => {
+            client.subscribe(`/topic/conversation/${conversation.conversationName}`, (message) => {
+                const receivedMessage: Message = JSON.parse(message.body);
+                console.log(receivedMessage);
+                setMessages((prevMessages) => [...prevMessages, receivedMessage]);
             });
         });
 
-        setStompClient(client);
+        stompClientRef.current = client;
 
+        return client;
+    }, [conversation]);
+
+    useEffect(() => {
+
+        fetchPreviousMessages();
+        const client = connectWebSocket();
+        
         return () => {
-            if (stompClient) {
-                stompClient.disconnect();
+            if (client) {
+                client.disconnect();
             }
         };
-    }, [conversation, stompClient]);
-
-    const sendMessage = () => {
-        setMessage(
-        (prev) => ({
-            ...prev,
-                content: messageContent,
-                conversationName: conversation.conversationName
-            
-        })
-        )
-
-        conversationService.sendMessage(message);
-    }
+    }, [connectWebSocket, fetchPreviousMessages]);
 
     return (
         <div>
-            <input type="text" value={messageContent} onChange={
-                (e) => {
-                    setContent(e.target.value);
-                }
-            }/>
-            <button onClick={sendMessage}>Send</button>
+        <div>
+            {messages.map((msg, index) => (
+                <div key={index}>
+                    <strong>{msg.sender}:</strong> {msg.content}
+                </div>
+            ))}
+        </div>
+        <SendMessage conversation={conversation}/>
         </div>
     );
 };

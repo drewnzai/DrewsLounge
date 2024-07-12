@@ -40,7 +40,7 @@ public class MessageService {
                 message.setSender(user);
                 message.setSentAt(Instant.now());
                 
-                simpMessagingTemplate.convertAndSend("/topic/conversation/" + messageDto.getConversationName(), message);
+                simpMessagingTemplate.convertAndSend("/topic/conversation/" + messageDto.getConversationName(), messageDto);
     
                 messageRepository.save(message);
             }

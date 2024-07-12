@@ -2,6 +2,7 @@ import { toast } from "react-toastify";
 import ApiInterceptor from "../auth/ApiInterceptor";
 import { ConversationRequest } from "../models/ConversationRequest";
 import { Message } from "../models/Message";
+import { Conversation } from "../models/Conversation";
 
 export default class ConversationService{
 
@@ -29,6 +30,20 @@ export default class ConversationService{
                         return true;
                     }
 
+                }
+            )
+    }
+
+    getMessages(conversation: Conversation){
+        return ApiInterceptor.post("conversation/messages", conversation)
+            .then(
+                (response) => {
+                    if(response.data.data){
+                        toast.error(response.data.data);
+                        return;
+                    }else{
+                        return response.data;
+                    }
                 }
             )
     }
