@@ -10,24 +10,18 @@ export default function SendMessage({conversation}: {conversation: Conversation}
 
     const conversationService = new ConversationService();
     
-    const [message, setMessage] = useState<Message>({
-        sender: userStr.username,
-        content: "",
-        conversationName: conversation.conversationName
-    });
-
+    
     const sendMessage = () => {
-        setMessage(
-        (prev) => ({
-            ...prev,
-                content: messageContent
-        })
-        )
+        const message: Message = {
+            sender: userStr.username,
+            content: messageContent,
+            conversationName: conversation.conversationName
 
+        }
+        
         conversationService.sendMessage(message)
             .then(
-                (response) => {
-
+                (_response) => {
                     setContent('');
                 }
             )
@@ -35,11 +29,7 @@ export default function SendMessage({conversation}: {conversation: Conversation}
 
     return(
         <div>
-            <input type="text" value={messageContent} onChange={
-                (e) => {
-                    setContent(e.target.value);
-                }
-            }/>
+            <input type="text" value={messageContent} onChange={(e) => setContent(e.target.value)}/>
             <button onClick={sendMessage}>Send</button>
         </div>
     );
