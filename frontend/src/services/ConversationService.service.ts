@@ -1,8 +1,8 @@
-import { toast } from "react-toastify";
+import {toast} from "react-toastify";
 import ApiInterceptor from "../auth/ApiInterceptor";
-import { ConversationRequest } from "../models/ConversationRequest";
-import { Message } from "../models/Message";
-import { Conversation } from "../models/Conversation";
+import {ConversationRequest} from "../models/ConversationRequest";
+import {Message} from "../models/Message";
+import {Conversation} from "../models/Conversation";
 
 export default class ConversationService{
 

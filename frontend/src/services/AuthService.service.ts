@@ -1,8 +1,8 @@
 import axios from "axios";
-import { LoginRequest } from "../models/LoginRequest";
-import { RegisterRequest } from "../models/RegisterRequest";
-import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import {LoginRequest} from "../models/LoginRequest";
+import {RegisterRequest} from "../models/RegisterRequest";
+import {toast} from "react-toastify";
+import {useNavigate} from "react-router-dom";
 
 const base_url = "http://localhost:8080/api/auth/";
 

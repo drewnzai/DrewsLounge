@@ -1,19 +1,15 @@
 package com.andrewnzai.DrewsLounge.api;
 
-import com.andrewnzai.DrewsLounge.dtos.LoginRequest;
 import com.andrewnzai.DrewsLounge.dtos.APIResponse;
+import com.andrewnzai.DrewsLounge.dtos.LoginRequest;
 import com.andrewnzai.DrewsLounge.dtos.RefreshTokenRequest;
 import com.andrewnzai.DrewsLounge.dtos.RegisterRequest;
 import com.andrewnzai.DrewsLounge.services.AuthService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
-
-import static org.springframework.http.HttpStatus.CONFLICT;
-import static org.springframework.http.HttpStatus.OK;
 
 @RestController
 @RequestMapping("/api/auth/")

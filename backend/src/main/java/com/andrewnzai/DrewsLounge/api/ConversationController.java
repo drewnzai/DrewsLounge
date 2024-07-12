@@ -1,22 +1,16 @@
 package com.andrewnzai.DrewsLounge.api;
 
-import java.util.List;
-
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.andrewnzai.DrewsLounge.dtos.APIResponse;
 import com.andrewnzai.DrewsLounge.dtos.ConversationDto;
 import com.andrewnzai.DrewsLounge.dtos.ConversationRequest;
 import com.andrewnzai.DrewsLounge.dtos.MessageDto;
 import com.andrewnzai.DrewsLounge.services.ConversationService;
 import com.andrewnzai.DrewsLounge.services.MessageService;
-
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/conversation/")

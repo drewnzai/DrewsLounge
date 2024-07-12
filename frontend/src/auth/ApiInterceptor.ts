@@ -1,6 +1,5 @@
 import axios from 'axios';
-import { RefreshTokenRequest } from '../models/RefreshTokenRequest';
-import { useNavigate } from 'react-router-dom';
+import {RefreshTokenRequest} from '../models/RefreshTokenRequest';
 
 
 const ApiInterceptor = axios.create({

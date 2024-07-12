@@ -1,9 +1,9 @@
-import { LoginRequest } from "../models/LoginRequest";
+import {LoginRequest} from "../models/LoginRequest";
 import AuthService from "../services/AuthService.service";
 import {Formik} from "formik";
 import * as yup from "yup"
-import { Box, Typography, TextField, Button, useTheme } from "@mui/material";
-import { tokens } from "../theme";
+import {Box, Button, TextField, Typography, useTheme} from "@mui/material";
+import {tokens} from "../theme";
 
 export default function Login(){
 

@@ -1,25 +1,15 @@
 package com.andrewnzai.DrewsLounge.services;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.stereotype.Service;
-
 import com.andrewnzai.DrewsLounge.dtos.ConversationDto;
 import com.andrewnzai.DrewsLounge.dtos.ConversationRequest;
 import com.andrewnzai.DrewsLounge.dtos.MessageDto;
-import com.andrewnzai.DrewsLounge.models.Conversation;
-import com.andrewnzai.DrewsLounge.models.GroupAdmin;
-import com.andrewnzai.DrewsLounge.models.Message;
-import com.andrewnzai.DrewsLounge.models.User;
-import com.andrewnzai.DrewsLounge.models.UserConversation;
-import com.andrewnzai.DrewsLounge.repositories.ConversationRepository;
-import com.andrewnzai.DrewsLounge.repositories.GroupAdminRepository;
-import com.andrewnzai.DrewsLounge.repositories.UserConversationRepository;
-import com.andrewnzai.DrewsLounge.repositories.UserRepository;
-import com.andrewnzai.DrewsLounge.repositories.MessageRepository;
-
+import com.andrewnzai.DrewsLounge.models.*;
+import com.andrewnzai.DrewsLounge.repositories.*;
 import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @AllArgsConstructor

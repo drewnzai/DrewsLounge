@@ -1,11 +1,11 @@
-import { Box, Typography, TextField, Button, useTheme } from "@mui/material";
-import { tokens } from "../theme";
+import {Box, Button, TextField, Typography, useTheme} from "@mui/material";
+import {tokens} from "../theme";
 import AuthService from "../services/AuthService.service";
-import { RegisterRequest } from "../models/RegisterRequest";
-import { useNavigate } from "react-router-dom";
+import {RegisterRequest} from "../models/RegisterRequest";
+import {useNavigate} from "react-router-dom";
 import {Formik} from "formik";
 import * as yup from "yup";
-import { toast } from "react-toastify";
+import {toast} from "react-toastify";
 
 export default function Register(){
 

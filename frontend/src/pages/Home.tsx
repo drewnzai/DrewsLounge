@@ -1,8 +1,8 @@
-import { useState } from "react";
-import { ConversationRequest } from "../models/ConversationRequest";
+import {useState} from "react";
+import {ConversationRequest} from "../models/ConversationRequest";
 import ConversationService from "../services/ConversationService.service";
-import { useConversations } from "./Entrypoint";
-import { Conversation } from "../models/Conversation";
+import {useConversations} from "./Entrypoint";
+import {Conversation} from "../models/Conversation";
 
 export default function Home(){
     const { addConversation } = useConversations();

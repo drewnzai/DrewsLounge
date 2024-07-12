@@ -1,8 +1,8 @@
-import { CssBaseline, ThemeProvider } from '@mui/material';
+import {CssBaseline, ThemeProvider} from '@mui/material';
 import 'react-toastify/dist/ReactToastify.css';
 import {ToastContainer} from 'react-toastify';
-import { ColorModeContext, useMode } from './theme';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import {ColorModeContext, useMode} from './theme';
+import {BrowserRouter, Route, Routes} from 'react-router-dom';
 import AccountVerification from './pages/AccountVerification';
 import Login from './pages/Login';
 import Register from './pages/Register';

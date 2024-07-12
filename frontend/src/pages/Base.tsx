@@ -1,5 +1,5 @@
-import { Box, Typography } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import {Box, Typography} from "@mui/material";
+import {useNavigate} from "react-router-dom";
 
 export default function Base(){
     const user: any | null = localStorage.getItem("user");

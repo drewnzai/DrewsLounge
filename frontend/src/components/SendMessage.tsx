@@ -1,7 +1,7 @@
-import { useState } from "react";
+import {useState} from "react";
 import ConversationService from "../services/ConversationService.service";
-import { Conversation } from "../models/Conversation";
-import { Message } from "../models/Message";
+import {Conversation} from "../models/Conversation";
+import {Message} from "../models/Message";
 
 export default function SendMessage({conversation}: {conversation: Conversation}){
     const [messageContent, setContent] = useState("");

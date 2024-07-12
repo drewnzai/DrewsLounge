@@ -1,9 +1,8 @@
-import { Navigate, Outlet } from "react-router-dom";
+import {Navigate, Outlet} from "react-router-dom";
 import Sidebar from "../components/Sidebar";
-import { createContext, useContext, useEffect, useState } from "react";
-import { Conversation } from "../models/Conversation";
+import {createContext, useContext, useEffect, useState} from "react";
+import {Conversation} from "../models/Conversation";
 import ConversationService from "../services/ConversationService.service";
-
 
 
 interface ConversationsContextType {

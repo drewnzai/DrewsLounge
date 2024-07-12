@@ -1,10 +1,9 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { CompatClient, Stomp } from '@stomp/stompjs';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
+import {CompatClient, Stomp} from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
-import axios from 'axios';
-import { useLocation } from 'react-router-dom';
-import { Conversation } from '../models/Conversation';
-import { Message } from '../models/Message';
+import {useLocation} from 'react-router-dom';
+import {Conversation} from '../models/Conversation';
+import {Message} from '../models/Message';
 import AuthService from '../services/AuthService.service';
 import ConversationService from '../services/ConversationService.service';
 import SendMessage from '../components/SendMessage';

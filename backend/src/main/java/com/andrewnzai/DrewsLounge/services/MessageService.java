@@ -1,10 +1,5 @@
 package com.andrewnzai.DrewsLounge.services;
 
-import java.time.Instant;
-
-import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.stereotype.Service;
-
 import com.andrewnzai.DrewsLounge.dtos.MessageDto;
 import com.andrewnzai.DrewsLounge.models.Conversation;
 import com.andrewnzai.DrewsLounge.models.Message;
@@ -12,8 +7,11 @@ import com.andrewnzai.DrewsLounge.models.User;
 import com.andrewnzai.DrewsLounge.repositories.ConversationRepository;
 import com.andrewnzai.DrewsLounge.repositories.MessageRepository;
 import com.andrewnzai.DrewsLounge.repositories.UserConversationRepository;
-
 import lombok.AllArgsConstructor;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.stereotype.Service;
+
+import java.time.Instant;
 
 @Service
 @AllArgsConstructor
