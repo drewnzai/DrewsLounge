@@ -28,6 +28,5 @@ public class Message {
     @ManyToOne
     @JoinColumn(name = "conversation_id", nullable = false)
     private Conversation conversation;
-
-    
+    private String status;
 }

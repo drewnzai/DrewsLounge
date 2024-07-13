@@ -11,4 +11,5 @@ public class MessageDto {
     private String sender;
     private String content;
     private String conversationName;
+    private String status;
 }
