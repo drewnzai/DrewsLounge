@@ -37,9 +37,9 @@ const Chat = () => {
         const socket = new SockJS('http://localhost:8080/ws');
         const client = Stomp.over(() => socket);
 
-        const token = authService.getCurrentJWT();
+        const username = authService.getCurrentUsername();
 
-        client.connect({Authorization: `Bearer ${token}`}, () => {
+        client.connect({}, () => {
             client.subscribe(`/topic/conversation/${conversation.conversationName}`, (message) => {
                 const receivedMessage: Message = JSON.parse(message.body);
                 setMessages((prevMessages) => [...prevMessages, receivedMessage]);
@@ -68,7 +68,7 @@ const Chat = () => {
         <div>
             {messages? messages.map((msg, index) => (
                 <div key={index}>
-                    <strong>{msg.sender}:</strong> {msg.content}
+                    <strong>{msg.sender}:</strong> {msg.content}: {msg.status}
                 </div>
             )): 
             <div>

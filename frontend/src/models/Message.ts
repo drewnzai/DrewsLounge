@@ -3,4 +3,5 @@ export interface Message{
     sender: string;
     content: string;
     conversationName: string;
+    status: string;
 }

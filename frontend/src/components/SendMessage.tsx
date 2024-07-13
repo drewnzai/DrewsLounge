@@ -15,7 +15,8 @@ export default function SendMessage({conversation}: {conversation: Conversation}
             sender: authService.getCurrentUsername(),
             content: messageContent,
             conversationName: conversation.conversationName,
-            messageId: 0
+            messageId: 0,
+            status: "NOT SEEN"
         }
         
         conversationService.sendMessage(message)
