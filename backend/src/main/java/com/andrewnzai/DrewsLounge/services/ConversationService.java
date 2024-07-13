@@ -165,6 +165,7 @@ public class ConversationService {
                 messageDto.setContent(message.getContent());
                 messageDto.setSender(message.getSender().getUsername());
                 messageDto.setConversationName(message.getConversation().getName());
+                messageDto.setMessageId(message.getId());
 
                 messageDtos.add(messageDto);
             }
