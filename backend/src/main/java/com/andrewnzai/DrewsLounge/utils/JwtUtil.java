@@ -17,6 +17,7 @@ import java.util.Date;
 @Component
 public class JwtUtil {
 
+    @SuppressWarnings("unused")
     private static final long serialVersionUID = -2550185165626007488L;
 
     @Value("${jwt.secret}")
