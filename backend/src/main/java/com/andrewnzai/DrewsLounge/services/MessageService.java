@@ -55,12 +55,15 @@ public class MessageService {
                 // Set the status of the message based on the recipient's online status
                 message.setStatus(WebSocketEventListener.isUserOnline(recipient.getUsername()) ? "SEEN" : "NOT SEEN");
 
-                // Update the status of the messageDTO being sent to the subscribed topic
+                // Save the message to gain an id that will be set in the messageDto object
+                messageRepository.save(message);
+
+                // Update the status and id of the messageDTO being sent to the subscribed topic
+                messageDto.setMessageId(message.getId());
                 messageDto.setStatus(message.getStatus());
                 
                 simpMessagingTemplate.convertAndSend("/topic/conversation/" + messageDto.getConversationName(), messageDto);
     
-                messageRepository.save(message);
             }
             else{
                 throw new Exception("You are not a member of this conversation");
@@ -78,4 +81,5 @@ public class MessageService {
         message.setStatus("SEEN");
         messageRepository.save(message);
     }
+
 }
