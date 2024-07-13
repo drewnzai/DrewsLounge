@@ -31,7 +31,7 @@ public class MailService {
             messageHelper.setFrom("drewslounge@email.com");
             messageHelper.setTo(notificationEmail.getRecipient());
             messageHelper.setSubject(notificationEmail.getSubject());
-            messageHelper.setText(notificationEmail.getBody());
+            messageHelper.setText(build(notificationEmail.getBody()));
         };
         try {
             mailSender.send(messagePreparator);
