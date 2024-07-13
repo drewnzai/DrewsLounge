@@ -10,9 +10,7 @@ import SendMessage from '../components/SendMessage';
 
 
 const Chat = () => {
-    const [messageContent, setContent] = useState("");
     const [messages, setMessages] = useState<Message[]>([]);
-    const [stompClient, setStompClient] = useState<CompatClient| null>(null);
     const location = useLocation();
     const conversation: Conversation = location.state;
     const conversationService = new ConversationService();
@@ -42,7 +40,6 @@ const Chat = () => {
         client.connect({}, () => {
             client.subscribe(`/topic/conversation/${conversation.conversationName}`, (message) => {
                 const receivedMessage: Message = JSON.parse(message.body);
-                console.log(receivedMessage);
                 setMessages((prevMessages) => [...prevMessages, receivedMessage]);
             });
         });
