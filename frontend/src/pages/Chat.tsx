@@ -43,6 +43,20 @@ const Chat = () => {
             client.subscribe(`/topic/conversation/${conversation.conversationName}`, (message) => {
                 const receivedMessage: Message = JSON.parse(message.body);
                 setMessages((prevMessages) => [...prevMessages, receivedMessage]);
+
+                console.log(receivedMessage.sender);
+
+                if (receivedMessage.sender !== username && receivedMessage.status === "NOT SEEN") {
+                    conversationService.markMessageAsSeen(receivedMessage)
+                        .then(() => {
+                            setMessages((prevMessages) =>
+                                prevMessages.map((m) =>
+                                    m.messageId === receivedMessage.messageId ? { ...m, status: "SEEN" } : m
+                                )
+                            );
+                        });
+                }
+
             });
         });
 

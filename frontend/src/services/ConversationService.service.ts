@@ -60,4 +60,15 @@ export default class ConversationService{
                 }
             )
     }
+
+    markMessageAsSeen(message: Message){
+        return ApiInterceptor.post("conversation/mark-seen", message)
+            .then(
+                (response) => {
+                    if(response.data.data){
+                        toast.error(response.data.data)
+                }
+            }
+            )
+    }
 }
