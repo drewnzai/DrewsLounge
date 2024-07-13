@@ -2,18 +2,17 @@ import {useState} from "react";
 import ConversationService from "../services/ConversationService.service";
 import {Conversation} from "../models/Conversation";
 import {Message} from "../models/Message";
+import AuthService from "../services/AuthService.service";
 
 export default function SendMessage({conversation}: {conversation: Conversation}){
     const [messageContent, setContent] = useState("");
-
-    const userStr = JSON.parse(localStorage.getItem("user")!);
-
+    const authService = new AuthService();
     const conversationService = new ConversationService();
     
     
     const sendMessage = () => {
         const message: Message = {
-            sender: userStr.username,
+            sender: authService.getCurrentUsername(),
             content: messageContent,
             conversationName: conversation.conversationName
 
