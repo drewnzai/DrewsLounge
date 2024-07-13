@@ -14,8 +14,8 @@ export default function SendMessage({conversation}: {conversation: Conversation}
         const message: Message = {
             sender: authService.getCurrentUsername(),
             content: messageContent,
-            conversationName: conversation.conversationName
-
+            conversationName: conversation.conversationName,
+            messageId: 0
         }
         
         conversationService.sendMessage(message)
