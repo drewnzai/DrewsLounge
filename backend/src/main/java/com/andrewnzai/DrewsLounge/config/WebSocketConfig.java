@@ -11,7 +11,6 @@ import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.simp.config.ChannelRegistration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
-import org.springframework.messaging.simp.stomp.StompCommand;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.messaging.support.ChannelInterceptor;
 import org.springframework.messaging.support.MessageHeaderAccessor;
@@ -51,19 +50,20 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer{
                         MessageHeaderAccessor.getAccessor(message, StompHeaderAccessor.class);
                 log.info("Headers: {}", accessor);
 
-                assert accessor != null;
-                if (StompCommand.CONNECT.equals(accessor.getCommand())) {
-
-                    String authorizationHeader = accessor.getFirstNativeHeader("Authorization");
-                    assert authorizationHeader != null;
-                    String token = authorizationHeader.substring(7);
-
-                    String username = jwtUtil.getUsernameFromJwtToken(token);
-                    UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-                    UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-                    SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
-
-                    accessor.setUser(usernamePasswordAuthenticationToken);
+                if(accessor != null){
+                    String authorizationHeader = accessor.getFirstNativeHeader("Authorization");                    
+                    
+                    if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+                        
+                        String token = authorizationHeader.substring(7);
+    
+                        String username = jwtUtil.getUsernameFromJwtToken(token);
+                        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+                        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                        SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+    
+                        accessor.setUser(usernamePasswordAuthenticationToken);
+                    }
                 }
 
                 return message;
