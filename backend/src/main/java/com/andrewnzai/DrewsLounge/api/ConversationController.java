@@ -44,6 +44,18 @@ public class ConversationController {
         }
     }
 
+    @PostMapping("/mark-seen")
+    public Object markMessageAsSeen(@RequestBody MessageDto messageDto){
+        try{
+            messageService.markMessageAsSeen(messageDto.getMessageId());
+            return null;
+        }
+        catch(Exception e){
+            return APIResponse.builder()
+                    .data(e.getMessage()).build();
+        }
+    }
+
     @PostMapping("create-private")
     public Object createPrivateConversation(@RequestBody ConversationRequest conversationRequest){
         try{
