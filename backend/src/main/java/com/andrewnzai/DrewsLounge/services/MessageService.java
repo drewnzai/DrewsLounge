@@ -8,6 +8,8 @@ import com.andrewnzai.DrewsLounge.models.UserConversation;
 import com.andrewnzai.DrewsLounge.repositories.ConversationRepository;
 import com.andrewnzai.DrewsLounge.repositories.MessageRepository;
 import com.andrewnzai.DrewsLounge.repositories.UserConversationRepository;
+import com.andrewnzai.DrewsLounge.websocket.WebSocketEventListener;
+
 import lombok.AllArgsConstructor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
