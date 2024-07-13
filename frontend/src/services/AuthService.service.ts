@@ -51,4 +51,13 @@ export default class AuthService{
             return user.username;
         }
     }
+
+    getCurrentJWT(){
+        const userStr = localStorage.getItem("user");
+        if(userStr){
+            const user = JSON.parse(userStr);
+            console.log(user.username);
+            return user.authenticationToken;
+        }
+    }
 }
