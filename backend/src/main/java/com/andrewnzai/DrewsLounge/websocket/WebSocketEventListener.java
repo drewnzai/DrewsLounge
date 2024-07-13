@@ -17,10 +17,14 @@ public class WebSocketEventListener {
     @EventListener
     public void handleWebSocketConnectListener(SessionConnectedEvent event) {
         StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(event.getMessage());
-        String username = (String) headerAccessor.getSessionAttributes().get("username");
-        String sessionId = headerAccessor.getSessionId();
-        if (username != null) {
-            userSessions.put(sessionId, username);
+        Map<String, Object> sessionAttributes = headerAccessor.getSessionAttributes();
+        if (sessionAttributes != null) {
+            String username = (String) sessionAttributes.get("username");
+            String sessionId = headerAccessor.getSessionId();
+            if (username != null && sessionId != null) {
+                userSessions.put(sessionId, username);
+                System.out.println("User Connected: " + username);
+            }
         }
     }
 

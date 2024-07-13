@@ -2,8 +2,12 @@ package com.andrewnzai.DrewsLounge.config;
 
 import com.andrewnzai.DrewsLounge.services.UserDetailsServiceImpl;
 import com.andrewnzai.DrewsLounge.utils.JwtUtil;
+import com.andrewnzai.DrewsLounge.websocket.WebSocketHandShakeInterceptor;
+
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -32,7 +36,9 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer{
     private UserDetailsServiceImpl userDetailsService;
 
      public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/ws").setAllowedOrigins("http://localhost:5173").withSockJS();
+        registry.addEndpoint("/ws")
+            .addInterceptors(webSocketHandShakeInterceptor())
+            .setAllowedOrigins("http://localhost:5173").withSockJS();
     }
 
     @Override
@@ -70,6 +76,11 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer{
             }
 
         });
+    }
+
+    @Bean
+    public WebSocketHandShakeInterceptor webSocketHandShakeInterceptor(){
+        return new WebSocketHandShakeInterceptor();
     }
 
 }
