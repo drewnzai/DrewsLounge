@@ -49,7 +49,8 @@ ApiInterceptor.interceptors.response.use(
                 const response = await axios.post("http://localhost:8080/api/auth/refresh", refreshTokenRequest);
                 
                 if(response.data.data){
-                    throw new Error("Cannot refresh JWT, refreshToken is expired");
+                  localStorage.removeItem("user");
+                  window.location.href = "/login";
                   }
                   else{
                     const refreshedUser = response.data;
