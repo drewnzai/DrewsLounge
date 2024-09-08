@@ -1,11 +1,18 @@
-import {Box, Typography} from "@mui/material";
-import {useNavigate} from "react-router-dom";
+import { Box, Typography, Button } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 
-export default function Base(){
-    const user: any | null = localStorage.getItem("user");
-
+export default function Base() {
     const navigate = useNavigate();
-    
+    const [user, setUser] = useState<any | null>(null);
+
+    useEffect(() => {
+        const storedUser = localStorage.getItem("user");
+        if (storedUser) {
+            setUser(storedUser);
+        }
+    }, []);
+
     const login = () => {
         navigate("/login");
     };
@@ -14,41 +21,67 @@ export default function Base(){
         navigate("/conversations/@me");
     };
 
-    return(
-        <div className="app"
+    return (
+        <div
+            className="app"
             style={{
-                backgroundImage: "url(base.jpg)",
+                backgroundImage: "url(Base.jpg)",
                 backgroundRepeat: "no-repeat",
-                backgroundPosition: "center",
-                backgroundSize: "100% 100vh"
+                backgroundSize: "cover",
+                height: "100vh",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                color: "#fff"
             }}
         >
-
-            <main className="content">
-                <Box display={"flex"}
-                mt={"350px"}
-                ml={"550px"}
+            <Box
+                sx={{
+                    textAlign: "center",
+                    maxWidth: "800px",
+                    backgroundColor: "rgba(0, 0, 0, 0.6)",
+                    borderRadius: "12px",
+                    padding: "20px",
+                }}
+            >
+                <Typography
+                    variant="h2"
+                    component="h1"
+                    fontWeight="bold"
+                    gutterBottom
+                    sx={{ fontSize: { xs: "2.5rem", md: "3.5rem" } }}
                 >
-
-
-                  {user? 
-                  
-                  <button className="button" onClick={goHome}>
-                    <Typography variant="h6">
-                        Open Lounge
-                    </Typography>
-                  </button>
-                  
-                  : <button className="button" onClick={login}>
-                    <Typography variant="h6">
-                        Login
-                    </Typography>
-                  </button>
-              }
-                </Box>
+                    Welcome to the Lounge
+                </Typography>
+                <Typography
+                    variant="h6"
+                    sx={{
+                        fontSize: { xs: "1.2rem", md: "1.5rem" },
+                        marginBottom: "20px",
+                    }}
+                >
+                    Your space to chat, connect, and explore conversations with your friends. 
+                </Typography>
                 
-            </main>
-
+                <Button
+                    variant="contained"
+                    onClick={user ? goHome : login}
+                    sx={{
+                        backgroundColor: "#5865F2",
+                        color: "#fff",
+                        fontWeight: "bold",
+                        padding: "12px 40px",
+                        fontSize: "1.2rem",
+                        textTransform: "none",
+                        borderRadius: "30px",
+                        "&:hover": {
+                            backgroundColor: "#4752C4",
+                        },
+                    }}
+                >
+                    {user ? "Open Lounge" : "Login"}
+                </Button>
+            </Box>
         </div>
     );
 }
