@@ -72,6 +72,39 @@ export const getMessagesFromIndexedDB = (conversationName: string): Promise<Mess
     });
 };
 
+export const updateMessageStatusInIndexedDB = (messageId: number, newStatus: string): Promise<void> => {
+    return new Promise(async (resolve, reject) => {
+        const db = await initIndexedDB();
+
+        const transaction = db.transaction([MESSAGE_STORE_NAME], 'readwrite');
+        const objectStore = transaction.objectStore(MESSAGE_STORE_NAME);
+
+        const request = objectStore.get(messageId);
+
+        request.onsuccess = (event) => {
+            const message = (event.target as IDBRequest<Message>).result;
+
+            if (message) {
+                message.status = newStatus; // Update message status
+                objectStore.put(message); // Update the message in IndexedDB
+
+                transaction.oncomplete = () => {
+                    console.log(`Message ${messageId} status updated to ${newStatus}`);
+                    resolve();
+                };
+            } else {
+                reject(new Error(`Message with ID ${messageId} not found in IndexedDB`));
+            }
+        };
+
+        request.onerror = (event) => {
+            console.error('Error updating message status', event);
+            reject(event);
+        };
+    });
+};
+
+
 export const clearMessagesFromIndexedDB = (): Promise<void> => {
     return new Promise(async (resolve, reject) => {
         const db = await initIndexedDB();
