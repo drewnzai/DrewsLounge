@@ -15,6 +15,7 @@ const Chat = () => {
     const conversation: Conversation = location.state;
     const conversationService = new ConversationService();
     const authService = new AuthService();
+    const username = authService.getCurrentUsername();
 
     const stompClientRef = useRef<CompatClient | null>(null);
 
@@ -27,7 +28,6 @@ const Chat = () => {
     const connectWebSocket = useCallback(() => {
         const socket = new SockJS('http://localhost:8080/ws');
         const client = Stomp.over(() => socket);
-        const username = authService.getCurrentUsername();
 
         client.connect({}, () => {
             client.subscribe(`/topic/conversation/${conversation.conversationName}`, (message) => {
@@ -65,7 +65,7 @@ const Chat = () => {
     return (
         <div className="chat-container">
             <div className="messages-container">
-                {messages ? (
+                {messages.length !== 0 ? (
                     messages.map((msg, index) => (
                         <div key={index} className={`message ${msg.sender === authService.getCurrentUsername() ? 'own-message' : 'other-message'}`}>
                             <div className="message-header">
@@ -74,9 +74,12 @@ const Chat = () => {
                             <div className="message-body">
                                 {msg.content}
                             </div>
-                            <div className="message-status">
-                                {msg.status === 'SEEN' ? 'Seen' : 'Delivered'}
-                            </div>
+                            {/* Only show message status if it's from the other user */}
+                            {msg.sender !== username && (
+                                <div className="message-status">
+                                    {msg.status === 'SEEN' ? 'Seen' : 'Delivered'}
+                                </div>
+                            )}
                         </div>
                     ))
                 ) : (
