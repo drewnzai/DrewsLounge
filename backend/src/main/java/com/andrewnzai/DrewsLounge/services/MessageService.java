@@ -74,12 +74,20 @@ public class MessageService {
         }
     }
 
-    public void markMessageAsSeen(Long messageId) throws Exception{
+    public void markMessageAsSeen(Long messageId) throws Exception {
         Message message = messageRepository.findById(messageId).orElseThrow(
             () -> new Exception("No message with id: " + messageId + " is found")
         );
-        message.setStatus("SEEN");
-        messageRepository.save(message);
+    
+        Long conversationId = message.getConversation().getId();
+    
+        List<Message> unseenMessages = messageRepository.findAllUnseenMessagesInConversationBefore(
+            conversationId, message.getSentAt()
+        );
+    
+        unseenMessages.forEach(m -> m.setStatus("SEEN"));
+    
+        messageRepository.saveAll(unseenMessages);
     }
-
+    
 }
