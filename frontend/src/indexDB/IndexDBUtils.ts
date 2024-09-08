@@ -1,10 +1,9 @@
 import { Message } from "../models/Message";
 
-const DATABASE_NAME = 'ChatDB';
-const DATABASE_VERSION = 1; // Version number of the database
+const DATABASE_NAME = 'DrewsLounge';
+const DATABASE_VERSION = 1;
 const MESSAGE_STORE_NAME = 'messages';
 
-// Initialize IndexedDB
 export const initIndexedDB = (): Promise<IDBDatabase> => {
     return new Promise((resolve, reject) => {
         const request = indexedDB.open(DATABASE_NAME, DATABASE_VERSION);
@@ -12,9 +11,7 @@ export const initIndexedDB = (): Promise<IDBDatabase> => {
         request.onupgradeneeded = (event: IDBVersionChangeEvent) => {
             const db = (event.target as IDBOpenDBRequest).result;
             if (!db.objectStoreNames.contains(MESSAGE_STORE_NAME)) {
-                // Create object store for messages with 'messageId' as the primary key
                 const objectStore = db.createObjectStore(MESSAGE_STORE_NAME, { keyPath: 'messageId' });
-                // Create an index on 'conversationName' for querying messages by conversation
                 objectStore.createIndex('conversationName', 'conversationName', { unique: false });
             }
         };
@@ -31,7 +28,6 @@ export const initIndexedDB = (): Promise<IDBDatabase> => {
     });
 };
 
-// Store messages in IndexedDB
 export const storeMessagesInIndexedDB = (messages: Message[]): Promise<void> => {
     return new Promise(async (resolve, reject) => {
         const db = await initIndexedDB();
@@ -55,7 +51,6 @@ export const storeMessagesInIndexedDB = (messages: Message[]): Promise<void> => 
     });
 };
 
-// Retrieve messages by conversation name
 export const getMessagesFromIndexedDB = (conversationName: string): Promise<Message[]> => {
     return new Promise(async (resolve, reject) => {
         const db = await initIndexedDB();
@@ -67,7 +62,7 @@ export const getMessagesFromIndexedDB = (conversationName: string): Promise<Mess
         const request = index.getAll(conversationName);
 
         request.onsuccess = (event) => {
-            resolve((event.target as IDBRequest<Message[]>).result); // Return all messages for the conversation
+            resolve((event.target as IDBRequest<Message[]>).result);
         };
 
         request.onerror = (event) => {
@@ -77,7 +72,6 @@ export const getMessagesFromIndexedDB = (conversationName: string): Promise<Mess
     });
 };
 
-// Clear all messages from IndexedDB
 export const clearMessagesFromIndexedDB = (): Promise<void> => {
     return new Promise(async (resolve, reject) => {
         const db = await initIndexedDB();
