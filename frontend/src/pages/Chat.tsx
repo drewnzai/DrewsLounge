@@ -89,7 +89,7 @@ const Chat = () => {
                             <div className="message-body">
                                 {msg.content}
                             </div>
-                            {msg.sender !== username && (
+                            {msg.sender === username && (
                                 <div className="message-status">
                                     {msg.status === 'SEEN' ? 'Seen' : 'Delivered'}
                                 </div>
