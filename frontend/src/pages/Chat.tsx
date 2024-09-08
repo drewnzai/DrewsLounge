@@ -74,7 +74,6 @@ const Chat = () => {
                             <div className="message-body">
                                 {msg.content}
                             </div>
-                            {/* Only show message status if it's from the other user */}
                             {msg.sender !== username && (
                                 <div className="message-status">
                                     {msg.status === 'SEEN' ? 'Seen' : 'Delivered'}
