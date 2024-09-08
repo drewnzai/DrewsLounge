@@ -8,6 +8,7 @@ import AuthService from '../services/AuthService.service';
 import ConversationService from '../services/ConversationService.service';
 import SendMessage from '../components/SendMessage';
 import './Chat.css';  // Import the CSS file for custom styling
+import { getMessagesFromIndexedDB, storeMessagesInIndexedDB } from '../indexDB/IndexDBUtils';
 
 const Chat = () => {
     const [messages, setMessages] = useState<Message[]>([]);
@@ -20,9 +21,23 @@ const Chat = () => {
     const stompClientRef = useRef<CompatClient | null>(null);
 
     const fetchPreviousMessages = useCallback(async () => {
-        conversationService.getMessages(conversation).then((response) => {
-            setMessages(response);
-        });
+
+        try{
+            const storedMessages: Message[] = await getMessagesFromIndexedDB(conversation.conversationName);
+
+            if(storedMessages.length > 0){
+                setMessages(storedMessages);
+            }
+            else{
+                conversationService.getMessages(conversation).then((response) => {
+                    setMessages(response);
+                    storeMessagesInIndexedDB(response);
+                });
+            }
+
+        }catch(error){
+            console.error('Error fetching messages:', error);
+        }
     }, [conversation]);
 
     const connectWebSocket = useCallback(() => {
