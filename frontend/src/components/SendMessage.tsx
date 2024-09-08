@@ -4,6 +4,7 @@ import { Conversation } from "../models/Conversation";
 import { Message } from "../models/Message";
 import AuthService from "../services/AuthService.service";
 import { Box, Button, TextField } from "@mui/material";
+import { storeMessagesInIndexedDB } from "../indexDB/IndexDBUtils";
 
 export default function SendMessage({ conversation }: { conversation: Conversation }) {
     const [messageContent, setContent] = useState("");
@@ -15,14 +16,15 @@ export default function SendMessage({ conversation }: { conversation: Conversati
 
         const message: Message = {
             sender: authService.getCurrentUsername(),
+            messageId: Date.now(),
             content: messageContent,
             conversationName: conversation.conversationName,
-            messageId: 0,
             status: "NOT SEEN",
         };
         
         conversationService.sendMessage(message).then(() => {
             setContent('');
+            storeMessagesInIndexedDB([message]);
         });
     };
 
