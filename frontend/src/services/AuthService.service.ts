@@ -47,7 +47,6 @@ export default class AuthService{
         const userStr = localStorage.getItem("user");
         if(userStr){
             const user = JSON.parse(userStr);
-            console.log(user.username);
             return user.username;
         }
     }
@@ -56,7 +55,6 @@ export default class AuthService{
         const userStr = localStorage.getItem("user");
         if(userStr){
             const user = JSON.parse(userStr);
-            console.log(user.username);
             return user.authenticationToken;
         }
     }
