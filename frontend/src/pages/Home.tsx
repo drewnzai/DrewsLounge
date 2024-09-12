@@ -3,12 +3,15 @@ import {ConversationRequest} from "../models/ConversationRequest";
 import ConversationService from "../services/ConversationService.service";
 import {useConversations} from "./Entrypoint";
 import {Conversation} from "../models/Conversation";
+import AuthService from "../services/AuthService.service";
 
 export default function Home(){
     const { addConversation } = useConversations();
-    const [userName, setUserName] = useState("");
+    const authService = new AuthService();
+    const [secondUsername, setUsername] = useState("");
+    const username = authService.getCurrentUsername();
     const [conversationRequest, setConversationRequest] = useState<ConversationRequest>({
-        username1: null,
+        username1: username,
         username2: null,
         groupName: null
     });
@@ -19,7 +22,7 @@ const handlePrivateConversation = () => {
     setConversationRequest(
         (prev) => ({
             ...prev,
-            username1: userName
+            username2: secondUsername
         })
     )
 
@@ -38,14 +41,14 @@ const handlePrivateConversation = () => {
         )
     
 
-    setUserName('');
+    setUsername('');
 
 }
     return(
         <div>
-            <input type="text" value={userName} 
+            <input type="text" value={secondUsername} 
             onChange={(e) => {
-                setUserName(e.target.value)
+                setUsername(e.target.value)
             }} 
             placeholder="New Conversation Name" />
             <input type="submit" onClick={handlePrivateConversation}/>
