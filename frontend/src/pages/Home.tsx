@@ -8,8 +8,6 @@ import AuthService from "../services/AuthService.service";
 
 export default function Home() {
     const { addConversation } = useConversations();
-    const authService = new AuthService();
-
     const [secondUsername, setSecondUsername] = useState(""); 
     const [groupName, setGroupName] = useState(""); 
     const [users, setUsers] = useState<string[]>([]);
