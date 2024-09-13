@@ -14,14 +14,20 @@ export default function Sidebar() {
     const authService = new AuthService();
     const currentUsername = authService.getCurrentUsername();
 
-    const getOtherUsername = (conversationName: string): string => {
-        const participants = conversationName.split('-');
+    const presentName = (conversationName: string): string => {
+        if(conversationName.includes("-")){
+            const participants = conversationName.split('-');
+        
+            const otherUser = participants.filter(username => username !== currentUsername);
+        
+            return otherUser.join('');
+        }
+        else{
+            return conversationName;
+        }
+    }
 
-        const otherUser = participants.filter(username => username !== currentUsername);
-
-        return otherUser.join('');
-    };
-
+    
     return (
         <Box
             sx={{
@@ -60,14 +66,14 @@ export default function Sidebar() {
                     {conversations.map((conversation) => (
                         <MenuItem key={conversation.conversationName}>
                             <Link
-                                to={`/conversations/@me/${getOtherUsername(conversation.conversationName)}`}
+                                to={`/conversations/@me/${presentName(conversation.conversationName)}`}
                                 state={conversation}
                                 style={{
                                     color: colours.grey[100],
                                     textDecoration: "none",
                                 }}
                             >
-                                <Typography variant="body1">{getOtherUsername(conversation.conversationName)}</Typography>
+                                <Typography variant="body1">{presentName(conversation.conversationName)}</Typography>
                             </Link>
                         </MenuItem>
                     ))}
