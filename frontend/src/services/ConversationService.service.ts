@@ -5,6 +5,38 @@ import {Message} from "../models/Message";
 import {Conversation} from "../models/Conversation";
 
 export default class ConversationService{
+    joinGroupConversation(groupName: string) {
+        throw new Error("Method not implemented.");
+    }
+    
+    createGroupConversation(conversationRequest: ConversationRequest) {
+        return ApiInterceptor.post("conversation/create-group", conversationRequest)
+            .then(
+                (response) => {
+                    if(response.data.data){
+                        toast.error(response.data.data);
+                    }else{
+                        return response.data;
+                    }
+                }
+            )
+    }
+
+    searchUsers(username: string) {
+        const dataHolder: DataHolder = {
+            data: username
+        }
+        return ApiInterceptor.post("conversation/users", dataHolder)
+            .then(
+                (response) => {
+                    if(response.data){
+                        return response.data;
+                    }
+
+                    return response;
+                }
+            )
+    }
 
     getAllConversations(){
         return ApiInterceptor.get("conversation/all")

@@ -28,7 +28,6 @@ export default function Home() {
         });
     };
 
-    // Create a private conversation with selected user
     const handlePrivateConversation = (selectedUser: string) => {
         setConversationRequest((prev) => ({
             ...prev,
@@ -44,11 +43,10 @@ export default function Home() {
             }
         });
 
-        setSecondUsername(""); // Clear the search field
-        setUsers([]); // Clear the user search results
+        setSecondUsername("");
+        setUsers([]);
     };
 
-    // Create a new group conversation
     const handleCreateGroup = () => {
         if (groupName.trim() === "") return;
 
@@ -66,10 +64,10 @@ export default function Home() {
             }
         });
 
-        setGroupName(""); // Clear the group input field
+        setGroupName("");
     };
 
-    // Join an existing group by group name
+    
     const handleJoinGroup = () => {
         if (groupName.trim() === "") return;
 
@@ -82,7 +80,7 @@ export default function Home() {
             }
         });
 
-        setGroupName(""); // Clear the group input field
+        setGroupName("");
     };
 
     return (
