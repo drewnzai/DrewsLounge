@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ConversationRequest {
 
-    private String username1;
-    private String username2;
+    private String username;
     private String groupName;
 }
