@@ -9,14 +9,12 @@ import AuthService from "../services/AuthService.service";
 export default function Home() {
     const { addConversation } = useConversations();
     const authService = new AuthService();
-    const username = authService.getCurrentUsername();
 
     const [secondUsername, setSecondUsername] = useState(""); 
     const [groupName, setGroupName] = useState(""); 
     const [users, setUsers] = useState<string[]>([]);
     const [conversationRequest, setConversationRequest] = useState<ConversationRequest>({
-        username1: username,
-        username2: null,
+        username: null,
         groupName: null
     });
 
@@ -42,7 +40,7 @@ export default function Home() {
         conversationService.createPrivateConversation(conversationRequest).then((response) => {
             if (response) {
                 const newConversation: Conversation = {
-                    conversationName: conversationRequest!.username1!
+                    conversationName: conversationRequest!.username!
                 };
                 addConversation(newConversation);
             }
