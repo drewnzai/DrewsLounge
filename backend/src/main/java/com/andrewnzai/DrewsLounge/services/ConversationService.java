@@ -2,7 +2,6 @@ package com.andrewnzai.DrewsLounge.services;
 
 import com.andrewnzai.DrewsLounge.dtos.ConversationDto;
 import com.andrewnzai.DrewsLounge.dtos.ConversationRequest;
-import com.andrewnzai.DrewsLounge.dtos.DataHolder;
 import com.andrewnzai.DrewsLounge.dtos.MessageDto;
 import com.andrewnzai.DrewsLounge.models.*;
 import com.andrewnzai.DrewsLounge.repositories.*;
@@ -104,18 +103,6 @@ public class ConversationService {
         else{
             throw new Exception("No conversation with that name exists");
         }
-    }
-
-    public List<String> searchUsers(DataHolder dataHolder){
-        List<User> users = userRepository.findByUsernameContainingIgnoreCase(dataHolder.getData());
-
-        List<String> usernames = new ArrayList<>();
-    
-        for (User user : users) {
-            usernames.add(user.getUsername());
-        }
-
-    return usernames;
     }
 
     public void deleteGroup(ConversationRequest conversationRequest) throws Exception{
