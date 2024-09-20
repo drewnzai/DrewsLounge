@@ -4,7 +4,7 @@ import { ConversationRequest } from "../models/ConversationRequest";
 import ConversationService from "../services/ConversationService.service";
 import { useConversations } from "./Entrypoint";
 import { Conversation } from "../models/Conversation";
-import AuthService from "../services/AuthService.service";
+import UserService from "../services/UserService.service";
 
 export default function Home() {
     const { addConversation } = useConversations();
@@ -17,13 +17,13 @@ export default function Home() {
     });
 
     const conversationService = new ConversationService();
+    const userService = new UserService();
 
     
     const handleSearchUsers = () => {
         if (secondUsername.trim() === "") return;
 
-        
-        conversationService.searchUsers(secondUsername).then((response) => {
+        userService.searchUsers(secondUsername).then((response) => {
             setUsers(response);
         });
     };

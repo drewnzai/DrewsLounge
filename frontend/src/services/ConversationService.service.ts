@@ -23,22 +23,6 @@ export default class ConversationService{
             )
     }
 
-    searchUsers(username: string) {
-        const dataHolder: DataHolder = {
-            data: username
-        }
-        return ApiInterceptor.post("conversation/users", dataHolder)
-            .then(
-                (response) => {
-                    if(response.data){
-                        return response.data;
-                    }
-
-                    return response;
-                }
-            )
-    }
-
     getAllConversations(){
         return ApiInterceptor.get("conversation/all")
         .then(
