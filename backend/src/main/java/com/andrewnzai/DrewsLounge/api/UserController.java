@@ -16,7 +16,7 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("search")
-    public List<String> search(DataHolder dataHolder){
+    public List<String> search(@RequestBody DataHolder dataHolder){
         return userService.searchUsers(dataHolder);
     }
 }
