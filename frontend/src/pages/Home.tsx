@@ -1,9 +1,9 @@
-import { useState } from "react";
-import { Box, Button, TextField, Typography, Divider, List, ListItem, ListItemText } from "@mui/material";
-import { ConversationRequest } from "../models/ConversationRequest";
+import {useState} from "react";
+import {Box, Button, Divider, List, ListItem, ListItemText, TextField, Typography} from "@mui/material";
+import {ConversationRequest} from "../models/ConversationRequest";
 import ConversationService from "../services/ConversationService.service";
-import { useConversations } from "./Entrypoint";
-import { Conversation } from "../models/Conversation";
+import {useConversations} from "./Entrypoint";
+import {Conversation} from "../models/Conversation";
 import UserService from "../services/UserService.service";
 
 export default function Home() {

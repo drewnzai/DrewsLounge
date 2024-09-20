@@ -1,14 +1,14 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { CompatClient, Stomp } from '@stomp/stompjs';
+import {useCallback, useEffect, useRef, useState} from 'react';
+import {CompatClient, Stomp} from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
-import { useLocation } from 'react-router-dom';
-import { Conversation } from '../models/Conversation';
-import { Message } from '../models/Message';
+import {useLocation} from 'react-router-dom';
+import {Conversation} from '../models/Conversation';
+import {Message} from '../models/Message';
 import AuthService from '../services/AuthService.service';
 import ConversationService from '../services/ConversationService.service';
 import SendMessage from '../components/SendMessage';
-import './Chat.css';  // Import the CSS file for custom styling
-import { getMessagesFromIndexedDB, storeMessagesInIndexedDB } from '../indexDB/IndexDBUtils';
+import './Chat.css'; // Import the CSS file for custom styling
+import {getMessagesFromIndexedDB, storeMessagesInIndexedDB} from '../indexDB/IndexDBUtils';
 
 const Chat = () => {
     const [messages, setMessages] = useState<Message[]>([]);

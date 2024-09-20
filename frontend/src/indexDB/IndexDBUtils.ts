@@ -1,4 +1,4 @@
-import { Message } from "../models/Message";
+import {Message} from "../models/Message";
 
 const DATABASE_NAME = 'DrewsLounge';
 const DATABASE_VERSION = 1;

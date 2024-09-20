@@ -3,7 +3,6 @@ import ApiInterceptor from "../auth/ApiInterceptor";
 import {ConversationRequest} from "../models/ConversationRequest";
 import {Message} from "../models/Message";
 import {Conversation} from "../models/Conversation";
-import { DataHolder } from "../models/DataHolder";
 
 export default class ConversationService{
     joinGroupConversation(groupName: string) {

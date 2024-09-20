@@ -1,15 +1,13 @@
 package com.andrewnzai.DrewsLounge.services;
 
-import java.util.List;
-import java.util.ArrayList;
-
-import org.springframework.stereotype.Service;
-
 import com.andrewnzai.DrewsLounge.dtos.DataHolder;
 import com.andrewnzai.DrewsLounge.models.User;
 import com.andrewnzai.DrewsLounge.repositories.UserRepository;
-
 import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @AllArgsConstructor

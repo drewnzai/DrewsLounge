@@ -1,10 +1,10 @@
 import "react-pro-sidebar/dist/css/styles.css";
-import { Box, Typography, useTheme } from "@mui/material";
-import { tokens } from "../theme";
-import { Menu, MenuItem, ProSidebar } from "react-pro-sidebar";
+import {Box, Typography, useTheme} from "@mui/material";
+import {tokens} from "../theme";
+import {Menu, MenuItem, ProSidebar} from "react-pro-sidebar";
 import InboxIcon from '@mui/icons-material/Inbox';
-import { useConversations } from "../pages/Entrypoint";
-import { Link } from "react-router-dom";
+import {useConversations} from "../pages/Entrypoint";
+import {Link} from "react-router-dom";
 import AuthService from "../services/AuthService.service";
 
 export default function Sidebar() {

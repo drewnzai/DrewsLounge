@@ -1,10 +1,10 @@
-import { useState } from "react";
+import {useState} from "react";
 import ConversationService from "../services/ConversationService.service";
-import { Conversation } from "../models/Conversation";
-import { Message } from "../models/Message";
+import {Conversation} from "../models/Conversation";
+import {Message} from "../models/Message";
 import AuthService from "../services/AuthService.service";
-import { Box, Button, TextField } from "@mui/material";
-import { storeMessagesInIndexedDB } from "../indexDB/IndexDBUtils";
+import {Box, Button, TextField} from "@mui/material";
+import {storeMessagesInIndexedDB} from "../indexDB/IndexDBUtils";
 
 export default function SendMessage({ conversation }: { conversation: Conversation }) {
     const [messageContent, setContent] = useState("");
