@@ -16,6 +16,7 @@ import lombok.AllArgsConstructor;
 public class UserService {
 
     private final UserRepository userRepository;
+    private AuthService authService;
 
     public List<String> searchUsers(DataHolder dataHolder){
         List<User> users = userRepository.searchByUsername(dataHolder.getData());
@@ -23,7 +24,10 @@ public class UserService {
         List<String> usernames = new ArrayList<>();
     
         for (User user : users) {
-            usernames.add(user.getUsername());
+            if(!user.equals(authService.getCurrentUser())){
+
+                usernames.add(user.getUsername());
+            }
         }
         
         return usernames;
