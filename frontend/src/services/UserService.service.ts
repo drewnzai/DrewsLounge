@@ -8,7 +8,7 @@ export default class UserService{
         const dataHolder: DataHolder = {
             data: username
         }
-        return ApiInterceptor.post("users/search", dataHolder)
+        return ApiInterceptor.post("user/search", dataHolder)
             .then(
                 (response) => {
                     if(response.data){

@@ -31,7 +31,7 @@ export default function Home() {
     const handlePrivateConversation = (selectedUser: string) => {
         setConversationRequest((prev) => ({
             ...prev,
-            username2: selectedUser
+            username: selectedUser
         }));
 
         conversationService.createPrivateConversation(conversationRequest).then((response) => {
