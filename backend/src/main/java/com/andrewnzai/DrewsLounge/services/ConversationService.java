@@ -6,6 +6,9 @@ import com.andrewnzai.DrewsLounge.dtos.MessageDto;
 import com.andrewnzai.DrewsLounge.models.*;
 import com.andrewnzai.DrewsLounge.repositories.*;
 import lombok.AllArgsConstructor;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -14,6 +17,7 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class ConversationService {
+    private static final Logger logger = LoggerFactory.getLogger(ConversationService.class);
 
 // To-DO implement a way for private conversation names to be interchangeable i.e user1-user2 or user2-user1
     private final ConversationRepository conversationRepository;
@@ -25,8 +29,10 @@ public class ConversationService {
 
     public void createPrivateConversation(ConversationRequest conversationRequest) throws Exception{
         User user1 = userRepository.findByUsername(conversationRequest.getUsername());
+        logger.info(user1.toString());
         
         User user2 = authService.getCurrentUser();
+        logger.info(user2.toString());
 
         String conversationName = user2.getUsername() + "-" + user1.getUsername();
         String conversationName2 = user1.getUsername() + "-" + user2.getUsername();
