@@ -11,10 +11,6 @@ export default function Home() {
     const [secondUsername, setSecondUsername] = useState(""); 
     const [groupName, setGroupName] = useState(""); 
     const [users, setUsers] = useState<string[]>([]);
-    const [conversationRequest, setConversationRequest] = useState<ConversationRequest>({
-        username: null,
-        groupName: null
-    });
 
     const conversationService = new ConversationService();
     const userService = new UserService();
@@ -29,10 +25,10 @@ export default function Home() {
     };
 
     const handlePrivateConversation = (selectedUser: string) => {
-        setConversationRequest((prev) => ({
-            ...prev,
-            username: selectedUser
-        }));
+        const conversationRequest: ConversationRequest = {
+            username: selectedUser,
+            groupName: null
+        };
 
         conversationService.createPrivateConversation(conversationRequest).then((response) => {
             if (response) {
@@ -50,10 +46,14 @@ export default function Home() {
     const handleCreateGroup = () => {
         if (groupName.trim() === "") return;
 
-        setConversationRequest((prev) => ({
-            ...prev,
-            groupName
-        }));
+        console.log(groupName);
+
+        const conversationRequest: ConversationRequest = {
+            username: null,
+            groupName: groupName
+        }
+
+        console.log(conversationRequest);
 
         conversationService.createGroupConversation(conversationRequest).then((response) => {
             if (response) {
