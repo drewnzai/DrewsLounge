@@ -60,7 +60,7 @@ public class ConversationController {
     public Object createPrivateConversation(@RequestBody ConversationRequest conversationRequest){
         try{
             conversationService.createPrivateConversation(conversationRequest);
-            return null;
+            return "Conversation Created Successfully";
         }
         catch(Exception e){
             return APIResponse.builder()
@@ -72,7 +72,7 @@ public class ConversationController {
     public Object createGroup(@RequestBody ConversationRequest conversationRequest){
         try{
             conversationService.createGroupConversation(conversationRequest);
-            return null;
+            return "Group Created Successfully";
         }
         catch(Exception e){
             return APIResponse.builder()

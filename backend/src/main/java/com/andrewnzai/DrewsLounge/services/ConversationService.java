@@ -14,7 +14,6 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class ConversationService {
-    // To-DO implement a way for private conversation names to be interchangeable i.e user1-user2 or user2-user1
     private final ConversationRepository conversationRepository;
     private final MessageRepository messageRepository;
     private final UserConversationRepository userConversationRepository;
