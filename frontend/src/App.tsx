@@ -10,6 +10,7 @@ import Entrypoint from './pages/Entrypoint';
 import Base from './pages/Base';
 import Home from './pages/Home';
 import Chat from './pages/Chat';
+import Groups from './pages/Groups';
 
 function App() {
 
@@ -31,6 +32,7 @@ function App() {
         <Route element={<Entrypoint/>}>
           <Route path="/conversations/@me" element={<Home/>}/>
           <Route path="/conversations/@me/:conversationName" element={<Chat/>}/>
+          <Route path="/groups" element={<Groups/>}/>
         </Route>
         <Route path="/" element={<Base/>}/>
         <Route path="/login" element={<Login/>}/>
