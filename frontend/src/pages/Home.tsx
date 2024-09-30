@@ -52,9 +52,7 @@ export default function Home() {
             username: null,
             groupName: groupName
         }
-
-        console.log(conversationRequest);
-
+        
         conversationService.createGroupConversation(conversationRequest).then((response) => {
             if (response) {
                 const newGroupConversation: Conversation = {
