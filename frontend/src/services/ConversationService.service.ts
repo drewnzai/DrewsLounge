@@ -55,7 +55,7 @@ export default class ConversationService{
         const dataHolder: DataHolder = {
             data: groupName
         }
-        return ApiInterceptor.post("conversation/group/search", dataHolder)
+        return ApiInterceptor.post("conversation/search", dataHolder)
             .then(
                 (response) => {
                     if(response.data){

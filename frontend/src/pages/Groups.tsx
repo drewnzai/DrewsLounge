@@ -1,15 +1,31 @@
 import { Box, Typography, TextField, Card, CardContent } from "@mui/material";
 import { useState } from "react";
 import SearchIcon from '@mui/icons-material/Search';
+import ConversationService from "../services/ConversationService.service";
 
 export default function Groups(){
-    const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState<string>("");
   const [searchResults, setSearchResults] = useState<string[]>([]);
+  const conversationService = new ConversationService();
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
-    // Implement search functionality here and update searchResults accordingly
   };
+
+  const search = () => {
+    conversationService.searchGroups(searchTerm)
+      .then(
+        (response) => {
+          setSearchResults(response);
+        }
+      )
+  }
+
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      search();
+    }
+};
 
   return (
     <Box
@@ -50,6 +66,7 @@ export default function Groups(){
           variant="standard"
           InputProps={{ disableUnderline: true, style: { color: "#fff" } }}
           value={searchTerm}
+          onKeyPress={handleKeyPress}
           onChange={handleSearchChange}
         />
       </Box>
