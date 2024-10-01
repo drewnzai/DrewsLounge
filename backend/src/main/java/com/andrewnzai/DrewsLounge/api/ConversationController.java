@@ -3,6 +3,7 @@ package com.andrewnzai.DrewsLounge.api;
 import com.andrewnzai.DrewsLounge.dtos.APIResponse;
 import com.andrewnzai.DrewsLounge.dtos.ConversationDto;
 import com.andrewnzai.DrewsLounge.dtos.ConversationRequest;
+import com.andrewnzai.DrewsLounge.dtos.DataHolder;
 import com.andrewnzai.DrewsLounge.dtos.MessageDto;
 import com.andrewnzai.DrewsLounge.services.ConversationService;
 import com.andrewnzai.DrewsLounge.services.MessageService;
@@ -44,7 +45,7 @@ public class ConversationController {
         }
     }
 
-    @PostMapping("/mark-seen")
+    @PostMapping("mark-seen")
     public Object markMessageAsSeen(@RequestBody MessageDto messageDto){
         try{
             messageService.markMessageAsSeen(messageDto.getMessageId());
@@ -77,6 +78,17 @@ public class ConversationController {
         catch(Exception e){
             return APIResponse.builder()
                     .data(e.getMessage()).build();
+        }
+    }
+
+    @PostMapping("search")
+    public Object searchForGroups(@RequestBody DataHolder dataHolder){
+        try{
+            return conversationService.searchForGroups(dataHolder.getData());
+        }
+        catch(Exception e){
+            return APIResponse.builder()
+                .data(e.getMessage()).build();
         }
     }
 

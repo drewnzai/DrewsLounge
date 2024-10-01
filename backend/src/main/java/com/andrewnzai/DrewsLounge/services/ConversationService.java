@@ -165,6 +165,18 @@ public class ConversationService {
        return conversationDtos;
     }
 
+    public List<String> searchForGroups(String groupName){
+        List<Conversation> groups = conversationRepository.searchByGroupName(groupName);
+
+        List<String> groupNames = new ArrayList<>();
+
+        for(Conversation conversation: groups){
+            groupNames.add(conversation.getName());
+        }
+
+        return groupNames;
+    }
+
     public List<MessageDto> getMessagesFromConversation(ConversationDto conversationDto) throws Exception{
         if(conversationRepository.existsByName(conversationDto.getConversationName())){
             List<MessageDto> messageDtos = new ArrayList<>();
