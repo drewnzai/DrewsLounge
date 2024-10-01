@@ -3,6 +3,7 @@ import ApiInterceptor from "../auth/ApiInterceptor";
 import {ConversationRequest} from "../models/ConversationRequest";
 import {Message} from "../models/Message";
 import {Conversation} from "../models/Conversation";
+import { DataHolder } from "../models/DataHolder";
 
 export default class ConversationService{
     joinGroupConversation(groupName: string) {
@@ -46,6 +47,22 @@ export default class ConversationService{
                         return true;
                     }
 
+                }
+            )
+    }
+
+    searchGroups(groupName: string) {
+        const dataHolder: DataHolder = {
+            data: groupName
+        }
+        return ApiInterceptor.post("conversation/group/search", dataHolder)
+            .then(
+                (response) => {
+                    if(response.data){
+                        return response.data;
+                    }
+
+                    return response;
                 }
             )
     }
