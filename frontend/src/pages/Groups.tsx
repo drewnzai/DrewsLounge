@@ -1,7 +1,8 @@
-import { Box, Typography, TextField, Card, CardContent } from "@mui/material";
+import { Box, Typography, TextField, Card, CardContent, Button } from "@mui/material";
 import { useState } from "react";
 import SearchIcon from '@mui/icons-material/Search';
 import ConversationService from "../services/ConversationService.service";
+import { Link } from "react-router-dom";
 
 export default function Groups(){
   const [searchTerm, setSearchTerm] = useState<string>("");
@@ -19,7 +20,7 @@ export default function Groups(){
           setSearchResults(response);
         }
       )
-  }
+  };
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
@@ -80,6 +81,12 @@ export default function Groups(){
         px={2}
 >
   {searchResults.length > 0 && searchResults.map((searchResult, index) => (
+    <Link
+    to={`/conversations/@me/${searchResult}`}
+    style={{
+      textDecoration: "none"
+    }}
+    >
     <Card 
       key={index} 
       sx={{
@@ -99,6 +106,7 @@ export default function Groups(){
         </Typography>
       </CardContent>
     </Card>
+    </Link>
   ))}
 </Box>
 
