@@ -24,6 +24,10 @@ export default function Entrypoint(){
         setConversations((prevConversations) => [...prevConversations, conversation]);
     }
 
+    const getConversations = (): Conversation[] => {
+        return conversations;
+    };
+
     useEffect(
         () => {
             conversationService.getAllConversations()
