@@ -9,8 +9,12 @@ import ConversationService from '../services/ConversationService.service';
 import SendMessage from '../components/SendMessage';
 import './Chat.css'; // Import the CSS file for custom styling
 import {getMessagesFromIndexedDB, storeMessagesInIndexedDB} from '../indexDB/IndexDBUtils';
+import { useConversations } from './Entrypoint';
+import { Box, Typography, Button } from '@mui/material';
 
 const Chat = () => {
+    const {getConversations} = useConversations();
+    const [isPresent, setPresence] = useState<boolean>(false);
     const [messages, setMessages] = useState<Message[]>([]);
     const location = useLocation();
     const conversation: Conversation = location.state;
@@ -66,44 +70,99 @@ const Chat = () => {
         return client;
     }, [conversation]);
 
-    useEffect(() => {
-        fetchPreviousMessages();
-        const client = connectWebSocket();
+    const joinGroup = () => {
+        console.log(conversation.conversationName)
+    };
 
-        return () => {
-            if (client) {
-                client.disconnect();
-            }
-        };
+    useEffect(() => {
+        const currentConversations:Conversation[] = getConversations();
+
+        if(currentConversations.includes(conversation)){
+            setPresence(true);
+            fetchPreviousMessages();
+            const client = connectWebSocket();
+    
+            return () => {
+                if (client) {
+                    client.disconnect();
+                }
+            };
+        }
+
     }, [connectWebSocket, fetchPreviousMessages]);
 
     return (
         <div className="chat-container">
-            <div className="messages-container">
-                {messages.length !== 0 ? (
-                    messages.map((msg, index) => (
-                        <div key={index} className={`message ${msg.sender === authService.getCurrentUsername() ? 'own-message' : 'other-message'}`}>
-                            <div className="message-header">
-                                <strong>{msg.sender}</strong>
-                            </div>
-                            <div className="message-body">
-                                {msg.content}
-                            </div>
-                            {msg.sender === username && (
-                                <div className="message-status">
-                                    {msg.status === 'SEEN' ? 'Seen' : 'Delivered'}
+            {isPresent ? (
+                <><div className="messages-container">
+                    {messages.length !== 0 ? (
+                        messages.map((msg, index) => (
+                            <div key={index} className={`message ${msg.sender === authService.getCurrentUsername() ? 'own-message' : 'other-message'}`}>
+                                <div className="message-header">
+                                    <strong>{msg.sender}</strong>
                                 </div>
-                            )}
+                                <div className="message-body">
+                                    {msg.content}
+                                </div>
+                                {msg.sender === username && (
+                                    <div className="message-status">
+                                        {msg.status === 'SEEN' ? 'Seen' : 'Delivered'}
+                                    </div>
+                                )}
+                            </div>
+                        ))
+                    ) : (
+                        <div className="no-messages">
+                            <h2>No messages at the moment</h2>
                         </div>
-                    ))
-                ) : (
-                    <div className="no-messages">
-                        <h2>No messages at the moment</h2>
-                    </div>
-                )}
-            </div>
-            <SendMessage conversation={conversation} />
+                    )}
+                </div><SendMessage conversation={conversation} /></>
+            ): (
+                <>
+                    <div
+            style={{
+                backgroundImage: "url(Base.jpg)",
+                backgroundRepeat: "no-repeat",
+                backgroundSize: "cover",
+                height: "100vh",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                color: "#fff"
+            }}
+        >
+            <Box
+                sx={{
+                    textAlign: "center",
+                    maxWidth: "800px",
+                    borderRadius: "12px",
+                    padding: "20px",
+                }}
+            >
+                
+                <Button
+                    variant="contained"
+                    onClick={joinGroup}
+                    sx={{
+                        backgroundColor: "#5865F2",
+                        color: "#fff",
+                        fontWeight: "bold",
+                        padding: "12px 40px",
+                        fontSize: "1.2rem",
+                        textTransform: "none",
+                        borderRadius: "30px",
+                        "&:hover": {
+                            backgroundColor: "#4752C4",
+                        },
+                    }}
+                >
+                    {`Join ${conversation.conversationName}`}
+                </Button>
+            </Box>
         </div>
+                </>
+            )}
+            </div>
     );
 };
 

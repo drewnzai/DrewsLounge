@@ -8,6 +8,7 @@ import ConversationService from "../services/ConversationService.service";
 interface ConversationsContextType {
     conversations: Conversation[];
     addConversation: (conversation: Conversation) => void;
+    getConversations: () => Conversation[];
 }
 
 const CurrentConversationsContext = createContext<ConversationsContextType | undefined>(undefined);
@@ -42,7 +43,7 @@ export default function Entrypoint(){
     return(
        user? 
        
-       <CurrentConversationsContext.Provider value={{conversations, addConversation}}>
+       <CurrentConversationsContext.Provider value={{conversations, addConversation, getConversations}}>
 
        <div className="app">
                 
