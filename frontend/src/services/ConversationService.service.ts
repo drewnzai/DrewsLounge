@@ -4,6 +4,7 @@ import {ConversationRequest} from "../models/ConversationRequest";
 import {Message} from "../models/Message";
 import {Conversation} from "../models/Conversation";
 import { DataHolder } from "../models/DataHolder";
+import { storeMessagesInIndexedDB } from "../indexDB/IndexDBUtils";
 
 export default class ConversationService{
     joinGroupConversation(groupName: string) {
@@ -86,9 +87,10 @@ export default class ConversationService{
             .then(
                 (response) => {
                     if(response.data.data){
-                        toast.error(response.data.data)
+                        toast.error(response.data.data);
                     }else{
                         toast.success("Message sent successfully");
+                        storeMessagesInIndexedDB([message]);
                     }
                 }
             )

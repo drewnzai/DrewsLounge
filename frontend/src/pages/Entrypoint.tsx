@@ -3,12 +3,14 @@ import Sidebar from "../components/Sidebar";
 import {createContext, useContext, useEffect, useState} from "react";
 import {Conversation} from "../models/Conversation";
 import ConversationService from "../services/ConversationService.service";
+import SockJS from "sockjs-client";
+import { Stomp } from "@stomp/stompjs";
+import AuthService from "../services/AuthService.service";
 
 
 interface ConversationsContextType {
     conversations: Conversation[];
     addConversation: (conversation: Conversation) => void;
-    getConversations: () => Conversation[];
 }
 
 const CurrentConversationsContext = createContext<ConversationsContextType | undefined>(undefined);
@@ -18,16 +20,13 @@ export default function Entrypoint(){
     const user: any | null = localStorage.getItem("user");
     const conversationService = new ConversationService();
     const [conversations, setConversations] = useState<Conversation[]>([]);
+    const authService = new AuthService();
     
 
 
     const addConversation = (conversation: Conversation) => {
         setConversations((prevConversations) => [...prevConversations, conversation]);
     }
-
-    const getConversations = (): Conversation[] => {
-        return conversations;
-    };
 
     useEffect(
         () => {
@@ -36,14 +35,35 @@ export default function Entrypoint(){
                 (response: Conversation[]) => {
                     setConversations(response);
                 }
-            )
+            );
+
+            const socket = new SockJS('http://localhost:8080/ws');
+            const client = Stomp.over(() => socket);
+            
+            client.connect({}, () => {
+
+                client.subscribe(`/topic/new-conversation/${authService.getCurrentUsername()}`, (message) => {
+                    const newConversation: Conversation = JSON.parse(message.body);
+                    setConversations((prevConversations) => [...prevConversations, newConversation]);
+                });
+            }) 
+
+            
+
+                return() => {
+                    client.disconnect();
+                }
+
+           
+
+
         }, []
     );
 
     return(
        user? 
        
-       <CurrentConversationsContext.Provider value={{conversations, addConversation, getConversations}}>
+       <CurrentConversationsContext.Provider value={{conversations, addConversation}}>
 
        <div className="app">
                 

@@ -6,6 +6,8 @@ import com.andrewnzai.DrewsLounge.dtos.MessageDto;
 import com.andrewnzai.DrewsLounge.models.*;
 import com.andrewnzai.DrewsLounge.repositories.*;
 import lombok.AllArgsConstructor;
+
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -20,6 +22,7 @@ public class ConversationService {
     private final UserRepository userRepository;
     private final AuthService authService;
     private final GroupAdminRepository groupAdminRepository;
+    private final SimpMessagingTemplate simpMessagingTemplate;
 
     public void createPrivateConversation(ConversationRequest conversationRequest) throws Exception{
         User user1 = userRepository.findByUsername(conversationRequest.getUsername());
@@ -54,6 +57,13 @@ public class ConversationService {
             userConversation2.setUser(user2);
 
             userConversationRepository.save(userConversation2);
+
+            ConversationDto conversationDto = new ConversationDto();
+            conversationDto.setConversationName(conversation.getName());
+
+            simpMessagingTemplate.convertAndSend("/topic/new-conversation/" + user1.getUsername(), conversationDto);
+            simpMessagingTemplate.convertAndSend("/topic/new-conversation/" + user2.getUsername(), conversationDto);
+
         }
     }
 

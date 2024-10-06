@@ -9,11 +9,9 @@ import ConversationService from '../services/ConversationService.service';
 import SendMessage from '../components/SendMessage';
 import './Chat.css'; // Import the CSS file for custom styling
 import {getMessagesFromIndexedDB, storeMessagesInIndexedDB} from '../indexDB/IndexDBUtils';
-import { useConversations } from './Entrypoint';
-import { Box, Typography, Button } from '@mui/material';
+
 
 const Chat = () => {
-    const {getConversations} = useConversations();
     const [isPresent, setPresence] = useState<boolean>(false);
     const [messages, setMessages] = useState<Message[]>([]);
     const location = useLocation();
@@ -49,6 +47,7 @@ const Chat = () => {
         const client = Stomp.over(() => socket);
 
         client.connect({}, () => {
+            console.log(conversation.conversationName);
             client.subscribe(`/topic/conversation/${conversation.conversationName}`, (message) => {
                 const receivedMessage: Message = JSON.parse(message.body);
                 setMessages((prevMessages) => [...prevMessages, receivedMessage]);
@@ -75,27 +74,21 @@ const Chat = () => {
     };
 
     useEffect(() => {
-        const currentConversations:Conversation[] = getConversations();
+        fetchPreviousMessages();
+        const client = connectWebSocket();
 
-        if(currentConversations.includes(conversation)){
-            setPresence(true);
-            fetchPreviousMessages();
-            const client = connectWebSocket();
-    
-            return () => {
-                if (client) {
-                    client.disconnect();
-                }
-            };
-        }
+        return () => {
+            if (client) {
+                client.disconnect();
+            }
+        };
 
     }, [connectWebSocket, fetchPreviousMessages]);
 
     return (
         <div className="chat-container">
-            {isPresent ? (
                 <><div className="messages-container">
-                    {messages.length !== 0 ? (
+                    {messages ? (
                         messages.map((msg, index) => (
                             <div key={index} className={`message ${msg.sender === authService.getCurrentUsername() ? 'own-message' : 'other-message'}`}>
                                 <div className="message-header">
@@ -117,51 +110,6 @@ const Chat = () => {
                         </div>
                     )}
                 </div><SendMessage conversation={conversation} /></>
-            ): (
-                <>
-                    <div
-            style={{
-                backgroundImage: "url(Base.jpg)",
-                backgroundRepeat: "no-repeat",
-                backgroundSize: "cover",
-                height: "100vh",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                color: "#fff"
-            }}
-        >
-            <Box
-                sx={{
-                    textAlign: "center",
-                    maxWidth: "800px",
-                    borderRadius: "12px",
-                    padding: "20px",
-                }}
-            >
-                
-                <Button
-                    variant="contained"
-                    onClick={joinGroup}
-                    sx={{
-                        backgroundColor: "#5865F2",
-                        color: "#fff",
-                        fontWeight: "bold",
-                        padding: "12px 40px",
-                        fontSize: "1.2rem",
-                        textTransform: "none",
-                        borderRadius: "30px",
-                        "&:hover": {
-                            backgroundColor: "#4752C4",
-                        },
-                    }}
-                >
-                    {`Join ${conversation.conversationName}`}
-                </Button>
-            </Box>
-        </div>
-                </>
-            )}
             </div>
     );
 };
