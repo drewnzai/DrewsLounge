@@ -33,6 +33,7 @@ export default function Entrypoint(){
             conversationService.getAllConversations()
             .then(
                 (response: Conversation[]) => {
+                    console.log(response.toString());
                     setConversations(response);
                 }
             );

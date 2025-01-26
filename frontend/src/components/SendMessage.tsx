@@ -13,13 +13,13 @@ export default function SendMessage({ conversation }: { conversation: Conversati
     
     const sendMessage = () => {
         if (messageContent.trim() === "") return; // Prevent sending empty messages
-        const correctConversationName = authService.getCurrentUsername()+"-"+conversation.conversationName;
+        // const correctConversationName = authService.getCurrentUsername()+"-"+conversation.conversationName;
 
         const message: Message = {
             sender: authService.getCurrentUsername(),
             messageId: Date.now(),
             content: messageContent,
-            conversationName: correctConversationName,
+            conversationName: conversation.conversationName,
             status: "NOT SEEN",
         };
         console.log(conversation.conversationName);

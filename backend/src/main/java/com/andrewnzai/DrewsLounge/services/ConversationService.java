@@ -217,15 +217,11 @@ public class ConversationService {
     private void deleteConversation(Conversation conversation){
         List<UserConversation> userConversations = userConversationRepository.findAllByConversation(conversation);
 
-        for(UserConversation userConversation: userConversations){
-            userConversationRepository.delete(userConversation);
-        }
+        userConversationRepository.deleteAll(userConversations);
         
         List<Message> messages = messageRepository.findAllByConversation(conversation);
-            
-        for(Message message: messages){
-            messageRepository.delete(message);
-        }
+
+        messageRepository.deleteAll(messages);
 
        conversationRepository.delete(conversation);
     }
